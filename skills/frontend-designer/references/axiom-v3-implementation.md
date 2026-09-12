@@ -52,20 +52,111 @@ Common roles:
 
 Selected filters, tabs and toggle-like button groups use Axiom's selected state or `var(--ax-colors-bg-default-pressed)`, never `bg.accent`.
 
+### Match token meaning to usage
+
+A token being valid is not sufficient. Its semantic role must match the element using it.
+
+- Do not apply role-scoped tokens such as `spinner`, `avatar`, `pill`, `overlay` or `focus` to unrelated cards, paragraphs or decorative surfaces.
+- Check how elements with the same visual role are tokenized nearby and preserve the established pattern when it is appropriate.
+- When no specialized role applies, prefer a general token such as `bg.default`, `bg.secondary` or `fg.secondary` over an unrelated role-scoped token.
+
 ## Spacing and sizing tokens
 
 Use Axiom spacing props before raw pixel values.
 
 | Prop | Valid values used here |
 | --- | --- |
-| `p`, `m`, `gap` | `0 2 4 6 8 10 12 16 20 24 32 40 48 64 80`; `auto` for margin |
-| `w`, `h` | numeric tokens including `10 12 16 20 24 32 40 48 56 64 80 224 384`; named `2xs xs sm md lg xl 3xl`; fractions; `auto fit full max min` |
+| `p`, `m`, `gap` | `0 2 4 6 8 10 12 16 20 24 32 40 48 64 80` (**no `56`**); `auto` for margin |
+| `w`, `h` | `0 10 12 16 20 24 32 40 48 56 64 80 224 384` (**no `2 4 6 8`**); named `2xs xs sm md lg xl 3xl`; fractions; `auto fit full max min` |
 | `border`, `borderT/B/L/R` | `0 1 2` |
 | `maxH` | `xs sm md lg full` |
 
-Use `style` only when an exact value is structurally required and no token exists, for example `style={{ width: 448 }}` for a proven panel dimension. Do not introduce arbitrary spacing merely to tune by eye.
+The spacing scale and the size scale are not the same list. `56` is a size, not a spacing step; `4` and `8` are spacing steps, not sizes. `gap="56"` and `w="8"` both fail to compile. Confirm against `node_modules/@optiaxiom/react/dist/*.d.ts` rather than from memory or from a prose list elsewhere in the repository — where the two disagree, the installed types win.
+
+Use `style` only when an exact value is structurally required and no token exists, for example `style={{ width: 448 }}` for a proven panel dimension. Never round to an off-token value to make something look right: `13px`, `18px` and `28px` are all evidence that a layout was tuned by eye instead of composed.
 
 Use `rounded`, not `borderRadius`, and `shadow`, not `boxShadow`, when the tokenized prop fits. Radius tokens: `sm`, `md`, `lg`, `xl`, `full`. Shadow tokens: `sm`, `md`, `lg`.
+
+## Spacing rhythm — which token, and why
+
+A valid token is not a correct token. The table above says which values exist; this says which one to reach for, and the question is always the same one: **how strongly are these two things related?** Spacing is the cheapest grouping signal there is, and it should carry the structure before a border, a card or a background tint is considered.
+
+Optimizely product surfaces are open, calm and generous. **When a gap is genuinely ambiguous, take the larger step.** Under-spacing is the failure this design language actually suffers from. A screen that breathes reads as considered; a screen packed to its edges reads as a form somebody filled in, and no amount of type or colour work fixes that afterwards.
+
+### One scale, keyed to relationship — not to element type
+
+| Relationship | Step | Typical use |
+| --- | --- | --- |
+| Parts of one control | `4` | Icon to its label; a count beside the noun it counts |
+| Inside one block | `8` | A label and the field it names; a title and its one-line caption |
+| Frame around dense chrome | `12` | Padding inside a chip, a toolbar, a compact menu row |
+| Between siblings in a list | `16` | Two rules in a section; two fields in a form; two rows in a stack |
+| Between groups | `24` | Two field groups; a heading and the group beneath it; a nesting indent |
+| Between regions | `32` | Two sections of a page; the gutter around a content column |
+| Between major page bands | `40`–`48` | A header band and the work surface below it on a long editorial page |
+
+Do not reach past `48` inside a content column — that is page-shell territory. The working set for almost every surface is **`32` / `24` / `16`**, with `8` and `4` reserved for the inside of a single control and `12` for deliberately dense chrome.
+
+### Container padding
+
+| Container | Padding |
+| --- | --- |
+| Page shell | `px="32" py="24"` — owned by the app shell; never stack route padding on top of it |
+| Card, or a bordered section of a page | `24` |
+| Nested or inset block inside a card | `16` vertical, `24` horizontal, so the inner text column stays on the outer one |
+| Dialog or drawer body | `24` |
+| Dense chrome — toolbar, chip, compact row | `8`–`12` |
+| Table cell | `12` vertical, `16` horizontal |
+
+Within one container, horizontal padding is normally equal to or greater than the vertical. A box padded `24` at the top and `12` at the left reads as broken before anyone can say why.
+
+### Rules that catch the mistakes that actually happen
+
+- **One owner per gap.** A parent `gap`, or `Flow`, owns the vertical rhythm; its children do not also carry `mt`/`mb`. Two owners is how an intended `16` silently becomes `28`.
+- **Never tune spacing to fix an alignment problem.** If a control sits a few pixels off, the defect is the alignment, not the gap. Find the box it should align to and align to it — see *Measure what you changed* below.
+- **A fixed offset cannot serve two type sizes.** Any `top`, `mt` or padding picked to make one heading look right is wrong at every other size on the page. Align to a line box, not to a number.
+- **Shrinking spacing is not a way to fit more content**, exactly as shrinking type is not. Remove, group, shorten, disclose, or move to a larger surface.
+- **Keep the set of steps in one view small.** Three or four distinct gaps across a screen read as a system; nine read as an accident. If a new value is needed, check first whether an existing one on that screen would do.
+
+## What Axiom does not have
+
+The component documentation says what to pick from. This says what is *not* there — which is where invented markup actually comes from. A missing affordance gets quietly filled in with generic web convention instead of being recognised as a design decision to make.
+
+A prop that is idiomatic in Tailwind, Chakra or shadcn is not evidence that Axiom has it. Confirm against the installed `.d.ts` before using one.
+
+- **There is no full-width button.** `Button` offers `appearance`, `size` (`sm`/`md`/`lg`), `square` for icon-only, `loading`, `disabled`, `icon`, `iconPosition`, `addonBefore`, `addonAfter`. There is no `fullWidth` and no `block`, and stretching one with `w="full"` is off-pattern rather than a workaround.
+
+  For a full-bleed *add* affordance at the foot of a list, **the gutter owns the width and the button stays small**: a `24`-tall box spanning the list with a `size="sm" appearance="subtle"` button centred in it. This is what the shipped product does (`GuidanceAddGutter` + `GuidanceAddButton` in `opal-app`). A 1300px dashed bar is visually heavier than *Save*, and the quietest action on a page must never be the largest thing on it.
+- **There is no `size="sm"` on `Input` or `SearchInput`** — `md`, `lg`, `xl` only.
+- **There is no approved `xs` type role.** The token exists at 10px; it is not approved for Optimizely product surfaces. The floor is `sm` (12px) and body copy is `md` (14px).
+- **`Box` ignores `as`.** It renders a `div` whatever is passed. Use `asChild` around a real `span` where a `div` would be invalid — inside a `p`, for instance.
+- **There is no Caption primitive.** Reuse the shared wrapper; do not rebuild uppercase and letter-spacing locally.
+- **`56` is not a spacing step, and `2`/`4`/`6`/`8` are not size steps.** See the token table.
+- **Check the `unstable` export before hand-rolling layout or interaction.** `Sortable`, `SortableItem`, `SortableHandle` and `SortableGroup` ship there, and `@dnd-kit` is already vendored transitively — a drag-reorder needs no new dependency, which matters wherever dependency changes need separate review.
+
+When something genuinely is absent, that is a design-system gap to name in the completion report — not a licence to improvise a primitive.
+
+## Measure what you changed
+
+Before reporting visible work complete, measure the elements you added or moved — not the page around them. A whole-page quality score can pass while the single new control on it is wrong; that is exactly how both a 1300px add button and a 2px-high drag handle shipped past a green gate.
+
+For every new or changed element, read back from the rendered page:
+
+- its painted width and height;
+- its gap to the neighbour it is grouped with;
+- its optical alignment against whatever it is meant to line up with.
+
+Report those numbers. "It looks right in the screenshot" is not a measurement, and a computed style on a parent is not evidence about a child.
+
+**Measure the painted thing, not the box around it.** A 16px icon centred inside a 24px hit target inside a positioned slot has three rectangles, and only the innermost one is what the user sees. Measuring the slot will report a perfect `0` while the icon is visibly high, because the error lives between the boxes. Query down to the `svg`, the glyph run, the painted border — whatever actually has ink — and measure that. This is not hypothetical: a grip reported as `0.0px` on 35 rows was still 2.75px high, because every one of those readings was taken on the wrapper.
+
+Likewise, take the text's extent from a `Range` over its contents rather than from its element's bounding box. The element may carry padding, a transparent border or a negative margin for a hover affordance; the `Range` returns the line boxes the type actually occupies.
+
+**Aligning a control to text.** A control beside a line of text aligns to the **centre of that text's first line box** — not to the top of its container, and not to a fixed offset. Express the alignment in terms of the line box (its top and its line-height) so it survives a change of type size, then verify the measured offset is within a pixel of `0`.
+
+Do not add an "optical correction" on top of that. Measured against painted glyphs in this type ramp, the centre of the cap-height band sits **0.26px below** the line-box centre at 20px and **0.39px below** at 14px — the optical centre and the geometric centre are the same place, and there is nothing to compensate for. A nudge introduced to make one screenshot look right is an offset by eye with a rationale attached, and it will be wrong at the next type size. If a correction really is needed, measure it first — canvas `TextMetrics` gives `fontBoundingBoxAscent/Descent` and `actualBoundingBoxAscent` for cap height — and record the number you measured.
+
+**A hover affordance must cancel its own box.** When a resting element gains padding and a transparent border so it can show a hover or focus outline, the compensating negative margin has to cancel *both*. Cancelling only the padding leaves the text displaced by the border width, which silently moves every inline-editable title off the grid its neighbours align to and then poisons anything positioned against it.
 
 ## Typography implementation
 

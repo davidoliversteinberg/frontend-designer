@@ -100,6 +100,31 @@ After implementation and before visual scoring:
 
 Code compilation does not prove correct composition. Visual similarity does not prove valid API use. Both evidence paths must pass.
 
+## The deterministic checker, rule by rule
+
+In Axiom Play the checker is `yarn check:axiom <changed TSX files>` (`scripts/check-axiom.mjs`), with `yarn test:axiom-check` when the checker itself changes. It encodes rules stated nowhere else in this skill, so satisfy them while writing rather than discovering them at the gate:
+
+| Rule | What it requires |
+| --- | --- |
+| `button-icon-fill-start` | A leading Material icon on a `Button` uses the filled treatment — `<IconPlus filled size={14} />` |
+| `button-icon-fill-end` | A trailing icon stays unfilled |
+| `button-icon-label` | An icon-only `Button` carries an accessible label |
+| `button-manual-icon` | Icons pass through `icon`/`iconPosition`, never hand-composed inside `children` |
+| `raw-control` | No raw `button`/`input`/`select`/`textarea` where an Axiom control exists |
+| `invented-component` | No locally invented primitive standing in for an Axiom one |
+| `invented-icon` | No hand-drawn SVG standing in for a packaged icon |
+| `tabler-icon` | No `@tabler/icons-react` in product code |
+| `card-header`, `card-action-slot`, `card-checkbox-slot`, `legacy-card-part` | Card anatomy uses the current slots, not superseded parts |
+| `card-preview-visible-inset` | A `CardPreview`'s visible inset survives its parent's padding and overflow |
+
+Run the checker on the files changed, then read the findings against a pre-change baseline. Report pre-existing findings separately from any introduced by this work; do not present an unchanged count as a pass.
+
+## The shipped product is evidence
+
+For Opal surfaces, `newscred/opal-app` is the running implementation of the feature being prototyped. Read the relevant component before designing a pattern from scratch — it settles component choice, affordance shape and spacing rhythm in one pass, and it is more current than any screenshot. Its `guidanceSpacing.ts` is the origin of the relationship-keyed spacing scale in `axiom-v3-implementation.md`.
+
+Treat it as evidence, not as specification. It shows what the system already does; this skill still owns whether that is the right thing to do. Where the prototype deliberately diverges — a hover-revealed control made persistent, for example — state the divergence and the reason.
+
 ## Official sources
 
 - [Components](https://optimizely-axiom.github.io/optiaxiom/components/)
