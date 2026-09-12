@@ -6,7 +6,7 @@ description: >
   verified design-system component and state conformance, responsive rendering, and scored
   visual-quality validation. Use when making or changing interfaces; do not use for critique-only requests.
 metadata:
-  version: "1.0.0"
+  version: "1.1.0"
   phase: make
 ---
 
@@ -77,6 +77,8 @@ If these choices are unclear, inspect nearby production-quality screens and the 
 - One task owns the surface and one region owns the user's attention.
 - Page-level hierarchy is established before component-level styling.
 - Typography, alignment and spacing carry hierarchy before badges, borders or color.
+- Surfaces breathe. The working spacing set is `32` / `24` / `16`, and when a gap is genuinely ambiguous the larger step wins — under-spacing is this design language's characteristic failure, not over-spacing.
+- Spacing is chosen from the relationship between two elements, never from how much room is left. See the spacing-rhythm section of `axiom-v3-implementation.md`.
 - Large work surfaces use readable body type. Never shrink text to make excessive content fit.
 - Caption and monospaced uppercase text are specialized styles, not default section labels.
 - Density is localized. A dense operational panel may sit beside a quiet workspace; the entire page must not feel equally dense.
@@ -108,6 +110,10 @@ Every explicit user correction remains a blocking acceptance criterion until the
 Minimum passing score: **17/20 with no zero and no automatic failure**. TypeScript, lint, route `200`, or component compliance alone never proves visual quality.
 
 Completion requires the conformance postflight in `component-state-conformance.md`. For Axiom work, also complete `axiom-evidence-and-compliance.md`: verify every changed compound or interactive component against live documentation and the installed package, run the repository's deterministic Axiom check when available, and report any exception or unverifiable mapping.
+
+In Axiom Play, run `yarn check:axiom <changed TSX files>` before completion, and `yarn test:axiom-check` whenever the checker itself changes. Its rules are enumerated in `axiom-evidence-and-compliance.md`; satisfy them while writing, and report pre-existing findings separately from introduced ones.
+
+Measure what you changed, not only the page around it. A whole-page score can pass while the one new control on it is wrong. For every element added or moved, report its painted size, its gap to the neighbour it groups with, and its measured alignment offset against whatever it should line up with — see *Measure what you changed* in `axiom-v3-implementation.md`. Before assuming a prop exists, check it against the installed `.d.ts`; the *What Axiom does not have* section in the same file lists the absences that have caused real defects.
 
 If browser or screenshot verification is unavailable, state that explicitly and do not claim the UI is visually verified.
 
