@@ -91,7 +91,7 @@ Template previews should feel like real brand outputs, not marketplace filler or
 
 ## Asset comparison
 
-Current and pending assets must represent the same underlying subject and use compatible crop/scale. If the media cannot be compared visually, do not present it as a visual diff.
+First identify the decision. A same-asset visual diff needs aligned subject, crop and scale. An asset-replacement review can intentionally compare different photographs or compositions; label current/proposed versions and explain the replacement context. Use comparable presentation sizes without distorting images or claiming pixel correspondence.
 
 Choose the mechanism that best reveals change:
 
@@ -104,7 +104,7 @@ Keep the changed evidence more prominent than scores, AI personality or metadata
 
 ## Brand Packs and Stride prototype content
 
-Brand Packs should feel like brand intelligence, not a template marketplace. For prototype work, `Stride` is the primary fictive endurance sports/triathlon brand.
+Brand Packs should feel like brand intelligence, not a template marketplace. The following is a scoped content example for the fictive endurance sports brand `Stride`. Use it only when Stride is requested or already belongs to the prototype; preserve another user's brand and content.
 
 Stride content should feel endurance-driven, high-performance, athletic, professional, editorial but real, and focused on swimming, cycling, running, transitions and race day.
 

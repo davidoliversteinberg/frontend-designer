@@ -18,10 +18,20 @@ The skill:
 - discovers interactive controls created internally by compound components;
 - diagnoses whether a defect belongs to intent, mapping, composition, application code, the design system, or a version mismatch;
 - fixes the earliest incorrect layer and repeats verification;
-- renders the affected UI at primary, narrow, and actual component-mode boundaries;
+- renders new screens and substantial redesigns at primary, narrow, and affected component-mode boundaries; verifies focused edits within their scope;
 - blocks completion on unresolved component, state, accessibility, responsive, or visual-quality failures.
 
 Read the [complete user guide](docs/frontend-designer-guide.md) for the workflow, evidence model, prompt recipes, installation details, and completion contract.
+
+## What's new in 1.2.0
+
+- Stronger typography checks: actual font loading and weights, line height, reading width, wrapping, long content, and zoom.
+- A full-screen visual pass now requires top marks in reading order, typography, and composition as well as at least 17/20 overall, no zero, and no automatic failure. Strong technical compliance cannot mask weak core design craft.
+- Context-sensitive spacing and density replace blanket rules to make everything larger or more spacious.
+- Focused edits get focused verification, not an unrelated whole-page redesign or invented score.
+- References are loaded when relevant, and unchanged component evidence can be reused within a task.
+- A portable [visual-library intake](skills/frontend-designer/references/visual-library.md) separates Axiom authority, product composition references, external inspiration, and negative examples. Private screenshots are not bundled.
+- [Regression tasks](skills/frontend-designer/evals/design-tasks.md) cover scope, evidence gaps, typography, density, asset replacement, and a rendered comparison procedure. Textual validation is not a claim of measured visual improvement.
 
 ## Use it
 
@@ -51,6 +61,8 @@ Install the two repositories separately if you want both:
 2. Install [Tien's Virtual Design Teammate](https://github.com/notienle/virtual-design-teammate) for its broader strategy, critique, flows, UX writing, accessibility, validation, and handoff capabilities.
 
 They can coexist in the same Claude or Codex setup. Each repository remains independently maintained and updated. `frontend-designer` may use a relevant installed companion skill when its capability materially applies, but it never copies, updates, or assumes ownership of Tien's skills.
+
+GitHub's ahead/behind indicator compares this fork's commit history with Tien's repository, not the installed skill version. See [fork maintenance](docs/fork-maintenance.md) for the reviewed upstream reconciliation and why the companion pack remains separate.
 
 ## Axiom and Figma evidence
 
@@ -89,8 +101,10 @@ Start a new Claude or Codex session after installation or a skill rename so disc
 ```text
 commands/frontend-designer.md
 docs/frontend-designer-guide.md
+docs/fork-maintenance.md
 skills/frontend-designer/
   SKILL.md
+  evals/design-tasks.md
   references/
   scripts/check-for-updates.mjs
 ```

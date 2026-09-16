@@ -3,7 +3,7 @@ description: Design, build, or polish a visible Optimizely product interface
 argument-hint: [feature, route, Figma design, or interface change]
 ---
 
-Create or change the interface through explicit interaction-model selection, composition, verified component-and-state conformance, rendered responsive inspection, and the scored visual-quality gate.
+Create or change the interface through interaction-model selection, composition, verified component-and-state conformance, and rendered inspection. Use the scored visual-quality gate for new screens and substantial redesigns; use scoped verification for focused edits. Do not infer permission to edit from a critique-only request.
 
 Lead skill: `skills/frontend-designer/SKILL.md`.
 

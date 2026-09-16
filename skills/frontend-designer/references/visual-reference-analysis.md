@@ -27,9 +27,13 @@ A reusable rule explains why a relationship works across tasks: “a visual insp
 
 A screenshot-specific fact is incidental: “the drawer is exactly 448px,” “the filmstrip is at the bottom,” or “four cards appear per row.” Do not encode it as universal doctrine.
 
-## Evidence set: DAM/CMP review and library
+## Reference selection and provenance
 
-The following lessons were extracted from the five screenshots supplied on 2026-07-14. They are acceptance evidence for composition quality, not layouts to reproduce pixel-for-pixel.
+Use `visual-library.md` to distinguish system authority, composition examples, external inspiration, and negative examples. Inspect available actual images before claiming a visual comparison. Prose analysis is not a substitute for the pixels; unavailable references must be reported, not reconstructed and called approved.
+
+## Historical evidence: DAM/CMP review and library
+
+The following lessons were extracted from five user-supplied screenshots on 2026-07-14. The original temporary files are no longer available in this installation. These notes preserve design rationale, not a visually calibrated benchmark or proof of current Axiom compliance. Use newly supplied frames for visual calibration.
 
 ### Negative evidence: LLM version comparison
 
@@ -47,12 +51,12 @@ Do not universalize: a toggle is not always wrong. It works when alternatives sh
 
 ### Negative evidence: LLM edit submissions
 
-Queue, unequal image comparison and a detailed right drawer are simultaneously active. Current and pending imagery depict different subjects/crops, so the visual comparison is invalid. The panel repeats badges, score, confidence, findings and metadata in small type. Empty space and crowding occur in different regions, and the review flow feels attached to an existing DAM inspector rather than composed as one task.
+Queue, unequal image comparison and a detailed right drawer are simultaneously active. Current and pending imagery depict different subjects/crops without a clear replacement-review explanation; treating that as a pixel-level diff would be misleading. The panel repeats badges, score, confidence, findings and metadata in small type. Empty space and crowding occur in different regions, and the review flow feels attached to an existing DAM inspector rather than composed as one task.
 
 Rules derived:
 
 - Choose whether queue, comparison or decision owns each workflow step.
-- Current and pending media must be comparable in subject, crop and scale.
+- Same-asset diffs need compatible subject, crop and scale; replacement reviews may use different imagery when the change and version labels are clear.
 - Make “what changed?” more prominent than surrounding status chrome.
 - Use progressive disclosure instead of shrinking drawer text.
 - Design the review workspace as a coherent whole; do not bolt a full decision flow onto a generic detail panel.

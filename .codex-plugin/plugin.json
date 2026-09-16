@@ -1,6 +1,6 @@
 {
   "name": "frontend-designer",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Design, implement, diagnose, and quality-gate Optimizely interfaces with verified component and state conformance.",
   "author": {
     "name": "David Steinberg and contributors",
