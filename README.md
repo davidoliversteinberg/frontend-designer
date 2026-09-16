@@ -75,6 +75,22 @@ For Axiom work, current evidence is retrieved rather than remembered:
 
 The public [components](https://optimizely-axiom.github.io/optiaxiom/components/), [styling](https://optimizely-axiom.github.io/optiaxiom/styling/), and [guides](https://optimizely-axiom.github.io/optiaxiom/guides/) are supporting sources. The installed package remains the final API and runtime check.
 
+## Visual references: team manual and contributions
+
+Start with the [Visual reference team manual](docs/visual-reference-team-manual.md). It explains how Optimizely designers across CMP, CMS, Opal, experimentation, commerce, and other products can add Figma screens and component examples, use them with the skill, and contribute safely.
+
+| What | Where it lives | Who receives it |
+| --- | --- | --- |
+| Private screenshots and their catalog | `design-references/inbox/` in the product repository you are working in; register entries in `catalog.md` | That local workspace only; not included when someone installs this skill |
+| Guidance for selecting and interpreting references | [Visual library](skills/frontend-designer/references/visual-library.md) | Everyone installing the skill |
+| Images explicitly cleared for public contribution | `skills/frontend-designer/references/visuals/<product>/`, created when a cleared contribution is accepted; register it in the visual library | Everyone with access to this public repository |
+
+No public image collection is bundled yet. Existing local images are not uploaded or synchronized automatically. For private team sharing, use your approved internal Figma or asset location and keep its links in a private catalog.
+
+The best reference is **a readable full screen, its product/task/state, and a short explanation of what to learn and what not to copy**. Component examples should also identify their library/version and relevant variants or states. A screenshot teaches composition; it does not prove current Axiom APIs, accessibility, or interaction behavior.
+
+The manual includes Figma export steps, a copyable catalog template, examples for different product teams, ready-to-use prompts, and a public contribution checklist. You do not need to create another skill for every product or image.
+
 ## Install
 
 Ask Claude or Codex:
@@ -101,6 +117,7 @@ Start a new Claude or Codex session after installation or a skill rename so disc
 ```text
 commands/frontend-designer.md
 docs/frontend-designer-guide.md
+docs/visual-reference-team-manual.md
 docs/fork-maintenance.md
 skills/frontend-designer/
   SKILL.md

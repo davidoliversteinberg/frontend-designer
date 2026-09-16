@@ -52,6 +52,8 @@ When a Figma node is supplied, the skill treats it as fetchable product-intent a
 
 The skill checks for a target repository's local `design-references/inbox/catalog.md` when available, then inspects the one or two actual images relevant to the task. No private images are bundled with the public skill. An external brand may inspire a named relationship such as grouping or disclosure, but does not replace Axiom fonts, colors, components, or interaction contracts. User-designed concepts are composition references unless their system-approval scope is established. See the [visual library](../skills/frontend-designer/references/visual-library.md).
 
+For practical Figma export, catalog, private sharing, and public contribution instructions, follow the [Visual reference team manual](visual-reference-team-manual.md).
+
 ### Design the complete state model
 
 It derives applicable states and transitions from each component contract and the product logic instead of relying on a fixed checklist or delivering only a happy-path screenshot. It includes interactive descendants created internally by compound components and every mode where viewport, container, overlay, or input method changes structure or behavior.
@@ -296,6 +298,7 @@ Project-level instructions still matter. Installing this skill gives the agent t
 - [Interaction and composition](../skills/frontend-designer/references/interaction-and-composition.md)
 - [Visual quality gate](../skills/frontend-designer/references/visual-quality-gates.md)
 - [Visual library and private reference intake](../skills/frontend-designer/references/visual-library.md)
+- [Visual reference team manual](visual-reference-team-manual.md)
 - [Skill regression tasks and rendered benchmark](../skills/frontend-designer/evals/design-tasks.md)
 - [Fork maintenance and upstream reconciliation](fork-maintenance.md)
 - [Tien Le's original Virtual Design Teammate](https://github.com/notienle/virtual-design-teammate)
