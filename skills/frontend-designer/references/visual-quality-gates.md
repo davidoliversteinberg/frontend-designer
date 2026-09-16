@@ -2,14 +2,20 @@
 
 This is the completion authority for visible Optimizely product UI. Score the rendered surface, not the source code or design intention.
 
+## Scope the verification
+
+For a new screen or substantial change to its interaction model, hierarchy, or composition, use the full scorecard. For a focused edit, verify the changed region, affected states and responsive modes, plus nearby regressions. Do not score unreviewed parts of the page or turn pre-existing unrelated defects into an unrequested redesign. Explicit user corrections always retain their exact acceptance target.
+
+For repeated components, cover each distinct implementation/configuration/mode and representative content extremes; identical rows do not need individual measurement reports. A shared-component change requires checking its affected consumers, not merely one happy-path instance.
+
 ## Required evidence
 
-Before scoring:
+Before scoring or reporting a focused pass:
 
-1. Complete the semantic component-and-state contract in `component-state-conformance.md` and the acceptance scope in `acceptance-and-geometry.md`.
+1. Define the changed scope. Use `component-state-conformance.md` for changed controls/behavior/modes and `acceptance-and-geometry.md` for explicit corrections or ambiguous geometry.
 2. Render the exact changed route, named object and state at its primary desktop width.
 3. Discover interactive descendants from the source plus the rendered accessibility tree or focusable DOM.
-4. Exercise every applicable transition and each distinct render mode derived from the selected component contracts. Choose viewport widths around real mode boundaries rather than arbitrary desktop and narrow values.
+4. Exercise transitions and distinct render modes affected by the change, including internally rendered controls. Choose widths around affected mode boundaries. Reuse existing evidence for unchanged contracts only when version, configuration, and relevant context are unchanged.
 5. Capture screenshots and measure explicit geometry requirements against visible painted boundaries.
 6. Compare the pixels and measurements with the acceptance contract, design brief and supplied references.
 7. Fix visible problems, then score the revised result.
@@ -41,7 +47,11 @@ Score each category `0`, `1` or `2`.
 
 ### Passing threshold
 
-Require **17/20**, no category scored `0`, and no automatic failure. Record the score and any intentional tradeoff in the task handoff.
+Require **17/20**, no category scored `0`, no automatic failure, and **2 in each core craft category**: focal point and reading order; typography and readability; composition and spatial balance. Other strengths cannot compensate for an unresolved core visual weakness.
+
+For each core score, cite an observable relationship in the rendered result and a relevant inspected reference when available. For example: the asset is large enough to inspect, metadata forms a quieter column, and the decision action remains reachable. Avoid unsupported labels such as "premium" or "intentional." If no usable visual anchor exists, say the review is uncalibrated rather than pretending a prose description was visually inspected.
+
+Record the score and remaining tradeoffs. A focused edit receives scoped pass/fail evidence, not an invented whole-page total. Scores are an aid to judgment, not a measured quality percentage or a guarantee of user preference.
 
 Do not inflate scores because the code is compliant. A technically correct surface can score poorly in interaction fit, composition, content or typography.
 
@@ -51,7 +61,7 @@ Any of these blocks completion regardless of score:
 
 - an explicit user acceptance criterion that remains unmet or was tested on a substitute route, object, state or viewport;
 - an unresolved mismatch between semantic intent, selected design-system pattern, component anatomy/configuration or rendered state;
-- an applicable transition, internally rendered control or distinct render mode omitted from verification;
+- an affected transition, internally rendered control or distinct render mode omitted from the declared verification scope;
 - a claimed measurement taken from an offscreen, unclipped or otherwise different boundary than the one visible to the user;
 - computed geometry and screenshot evidence that contradict one another;
 - a repeated component fix applied only to one instance while the shared defect remains elsewhere;
@@ -61,7 +71,7 @@ Any of these blocks completion regardless of score:
 - repeated bright-green row/card actions;
 - nested cards without a workflow reason;
 - no clear focal point;
-- current/pending imagery that depicts different subjects or incompatible crops in a visual comparison;
+- unrelated or unaligned imagery presented as a pixel-level diff; clearly labeled asset-replacement review may intentionally show different subjects;
 - dead controls, empty menus, fake filters or tabs with no content;
 - broken keyboard interaction, focus visibility or essential contrast;
 - broken responsive layout, incorrect responsive component mode or horizontal clipping at the tested width;
@@ -83,11 +93,13 @@ Any of these blocks completion regardless of score:
 
 ### Typography gate
 
-- Main body and decision text use readable Body/Medium or larger roles.
-- Body/Small is limited to secondary metadata.
-- Caption/mono use is rare and semantic.
-- Text does not clip, collide or wrap awkwardly in controls.
-- Hierarchy survives a squint test without relying on borders and badges.
+- The approved product font has loaded and intended weights are available; distinguish declarations from actual rendered faces where tooling permits.
+- Main body and decision text use readable product roles; Body/Small remains secondary and Caption/mono use rare and semantic.
+- Line height and reading width suit sustained prose versus compact labels; essential text is not stretched across a broad workspace by default.
+- Roles remain distinct without making every label bold or adding a badge to every section.
+- Realistic long titles, multiline text and identifiers wrap or truncate intentionally, with essential full values accessible.
+- Representative changed text remains usable at 200% zoom and relevant narrow widths; supported localization is not broken.
+- Text and controls do not clip, collide, or rely on invisible overflow; hierarchy survives a squint test.
 
 ### Content gate
 
@@ -151,7 +163,7 @@ Fix these tells before adding polish:
 
 ## Reference comparison
 
-When a reference exists, compare:
+When a relevant visual reference is available, select it using `visual-library.md`, inspect the actual pixels, then compare. If none is available, disclose that calibration is unavailable and assess the rendered relationships without inventing a reference:
 
 - interaction model;
 - focal point and region proportions;
@@ -170,9 +182,9 @@ Report:
 
 - tested routes and viewport widths;
 - screenshot evidence;
-- score by category and total;
+- score by category and total for a full review, or scoped pass/fail evidence for a focused edit;
 - automatic-failure check;
 - fixes made after the first rendered pass;
 - anything unverified.
 
-Work is complete only after the rendered result passes, not when the first implementation compiles.
+Work is visually verified only after the scoped rendered result passes, not when the first implementation compiles. Separate implementation completion from unavailable visual verification.

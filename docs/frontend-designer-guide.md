@@ -6,7 +6,7 @@ It is more than a frontend coding prompt. The skill combines product-design judg
 
 ## When to use it
 
-Use `frontend-designer` when the requested outcome changes or validates a visible product interface:
+Use `frontend-designer` when the requested outcome creates, changes, or finishes a visible product interface:
 
 - design and build a new screen, workflow, panel, form, table, editor, or modal;
 - implement a Figma design or reconcile Figma with an existing codebase;
@@ -36,7 +36,9 @@ It removes repeated status and low-value metadata, uses progressive disclosure, 
 
 ### Apply product typography and surface discipline
 
-It preserves readable body text, limits captions and monospaced uppercase styles to specialized roles, and selects cards, panels, drawers, sheets, modals, separators, or open composition because they communicate workflow boundaries.
+It verifies the approved font and weights actually render, checks line height and reading width, and tests long content, wrapping, and zoom. It limits captions and monospaced uppercase styles to specialized roles. Cards, panels, drawers, sheets, modals, separators, and open composition are chosen because they communicate workflow boundaries, not to fill space.
+
+Spacing follows relationships and the task's density needs. More whitespace is not automatically better; dense operational work can remain calm and readable without shrinking essential text.
 
 ### Implement against OptiAxiom evidence
 
@@ -44,7 +46,11 @@ It verifies the semantic role, correct component or documented pattern, props, c
 
 ### Reconcile Figma with code
 
-When a Figma node is supplied, the skill treats it as fetchable product-intent and visual-acceptance evidence. It inspects the node, variables, screenshot, and Code Connect mapping when available, then verifies whether its component choices and states remain valid in the installed system. It preserves intended behavior while correcting stale, unsupported, or prototype-only representations.
+When a Figma node is supplied, the skill treats it as fetchable product-intent and visual-acceptance evidence. It inspects the node, variables, screenshot, and Code Connect mapping when available, then verifies whether its component choices and states remain valid in the installed system. It preserves intended behavior while reconciling stale, unsupported, or prototype-only representations. The user's explicitly requested departure can supersede a Figma frame.
+
+### Calibrate with visual references
+
+The skill checks for a target repository's local `design-references/inbox/catalog.md` when available, then inspects the one or two actual images relevant to the task. No private images are bundled with the public skill. An external brand may inspire a named relationship such as grouping or disclosure, but does not replace Axiom fonts, colors, components, or interaction contracts. User-designed concepts are composition references unless their system-approval scope is established. See the [visual library](../skills/frontend-designer/references/visual-library.md).
 
 ### Design the complete state model
 
@@ -56,13 +62,15 @@ Visible strings, terminology, confirmation, status, empty-state, and recovery la
 
 ### Render and quality-gate the result
 
-The skill renders changed UI at the primary desktop width, a narrower width, and both sides of every discovered component-mode boundary. It exercises applicable transitions, inspects screenshots, and scores ten quality categories. Passing requires at least 17/20, no category scored zero, and no automatic failure.
+For a new screen or substantial redesign, the skill renders the primary viewport, a narrower viewport, and both sides of affected component-mode boundaries. It exercises changed states, inspects screenshots, and scores ten quality categories. Passing requires at least 17/20, no zero, all three core craft categories at 2, and no automatic failure. Reading order, typography, and composition each need observable evidence for their score.
+
+A focused edit instead gets focused verification of its target, affected states and widths, and adjacent regressions. The skill does not score unreviewed parts of the page or expand the task into fixing unrelated pre-existing issues.
 
 ### Lock explicit corrections and verify systemic fixes
 
-When a user identifies a visible defect, the skill records the exact route, object, state, viewport, expected result and evidence method. That criterion remains blocking until the same target passes. It then checks every instance, state and width that shares the responsible implementation so a local patch does not leave the system inconsistent.
+When a user identifies a visible defect, the skill records the exact route, object, state, viewport, expected result and evidence method. That criterion remains blocking until the same target passes. It checks affected shared implementations and representative states and widths so a local patch does not leave the system inconsistent, without broadening the authorized scope.
 
-For spacing, alignment, collision and clipping, the skill measures the painted target against the visible reference boundary after ancestor clipping. Computed styles support the explanation but cannot overrule contradictory pixels. If the user reports that the defect remains, the previous completion claim and score are revoked.
+For numeric acceptance criteria or ambiguous spacing, alignment, collision and clipping, the skill measures the relevant visible target and boundary. Computed styles support the explanation but cannot overrule contradictory pixels. This is not a requirement to measure every element. If the user reports that the defect remains, the previous completion claim and score are revoked.
 
 ## Optional companion routing
 
@@ -79,10 +87,10 @@ Your prompt and evidence
 Context + optional companion routing
         |
         v
-Acceptance contract + systemic scope
+Task scope + explicit acceptance criteria, when needed
         |
         v
-Compact design brief
+Compact design brief for new screens or major redesigns
   user decision / interaction model / composition
   content budget / type and actions / surface plan
         |
@@ -102,14 +110,16 @@ Axiom postflight + repository checks
 Rendered desktop and narrow-width inspection
         |
         v
-17/20 visual-quality gate + verification report
+Full visual-quality gate or focused verification report
 ```
 
 The target repository remains authoritative for its build system, routes, local wrappers, navigation, file architecture, and git rules. The skill improves the interface without assuming permission for unrelated infrastructure or product changes.
 
+Supporting Markdown references are detailed guidance, not extra active skills. `SKILL.md` routes to only those relevant to the task. A small correction needs a scope statement and relevant checks, not every step in the full-screen workflow above.
+
 ## How component and state accuracy works
 
-The skill does not accumulate rules for individual components or past bugs. It applies one conformance loop to every interface element:
+The skill applies one conformance loop to added or changed component and state contracts, reusing verified unchanged contracts:
 
 1. Define the intended user action and semantic role.
 2. Prove the correct system primitive or documented composition from current evidence.
@@ -124,7 +134,7 @@ The prototype, design system, implementation, and rendered interface answer diff
 
 ### Evidence before coding
 
-For every selected interactive or compound component, the skill establishes a component evidence record containing:
+For an added or changed interactive or compound component contract, the skill establishes an evidence record containing:
 
 - the installed `@optiaxiom/react` version;
 - the intended Axiom component or documented composition;
@@ -137,11 +147,11 @@ For every selected interactive or compound component, the skill establishes a co
 
 Evidence is separated by authority: the user owns the outcome, Figma supplies product intent and visual acceptance, current Axiom documentation supplies the documented contract, the installed package supplies the executable version, and the rendered interface proves user-perceivable behavior. Conflicts are reconciled according to the question rather than by trusting one universal hierarchy.
 
+Evidence can be reused once established for the same component, version, configuration, and context within the task. Refresh it when the contract changes or a gap remains, not once per repeated instance. Keep hard requirements, adaptable defaults, and illustrative examples distinct.
+
 ### Compound components are treated as contracts
 
-A Card is not an arbitrary bordered box. Current Card composition may include `Card`, `CardPreview`, `CardImage`, `CardCheckbox`, `CardAction`, `CardHeader`, `CardLink`, and `CardFooter`. `CardPreview` exposes four explicit addon slots: `addonTopLeft`, `addonTopRight`, `addonBottomLeft`, and `addonBottomRight`. The skill verifies which regions are required and where actions or checkboxes belong before coding.
-
-A Button uses the documented `icon` and `iconPosition="start" | "end"` API rather than a manually spaced icon child. In the Optimizely convention captured by this pack, a leading Material icon is filled and a trailing Material icon is unfilled unless current product evidence establishes a justified exception.
+A Card is not an arbitrary bordered box. The skill checks the installed component's supported anatomy, preview regions, slots, and action or checkbox placement rather than assuming a familiar API. It likewise verifies Button icon APIs and the applicable product icon convention. This guide is not a version-independent component specification.
 
 ### Missing Figma components do not authorize invention
 
@@ -156,7 +166,7 @@ It does not silently introduce a generic primitive, wrapper, or new component sy
 
 ### Verification after coding
 
-The postflight rechecks every changed interactive or compound component against live documentation and the installed package, then reconciles source inventory with the rendered accessibility tree or focusable DOM. It exercises applicable transitions and every distinct rendered mode before scoring. In Axiom Play, the repository-level `yarn check:axiom` command catches structural classes of error, while browser verification catches state and responsive failures that static analysis cannot see.
+The postflight compares changed component contracts with the task's verified evidence, refreshing changed or unresolved mappings. It reconciles source inventory with the rendered accessibility tree or focusable DOM and exercises affected transitions and distinct rendered modes. In Axiom Play, the repository-level `yarn check:axiom` command catches structural classes of error, while browser verification catches state and responsive failures that static analysis cannot see.
 
 The reusable skill can request and interpret that check; the deterministic checker belongs in the target repository so it can validate the exact installed package and local conventions.
 
@@ -176,9 +186,15 @@ You do not need to name all supporting skills. Invoke the lead skill and describ
 
 > Use frontend-designer to implement this Figma node in the current route. Fetch the real node, variables, screenshot, and Code Connect data first. Preserve the intended experience and valid visual relationships, but reconcile every component and state with the installed Axiom package instead of copying unsupported prototype choices.
 
-### Audit Axiom without changing code
+### Ask for critique without changing code
 
-> Use frontend-designer to audit the changed files on this branch for Axiom compliance. Check component exports, compound anatomy, slots, props, tokens, icon placement and fill, accessibility, and repository conventions. Do not edit anything; return prioritized findings with evidence.
+> Review the changed interface for hierarchy, typography, composition, and Axiom compliance. Use an available design-review capability. Do not edit anything; return prioritized findings with evidence.
+
+Critique-only work does not authorize implementation. An ambiguous observation such as "this table feels cluttered" should lead to diagnosis first; "make this table calmer" authorizes a scoped change.
+
+### Make a focused correction
+
+> Use frontend-designer to fix the alignment of this drag handle beside a two-line title. Preserve the rest of the page. Verify the actual target and affected text sizes; if browser evidence is unavailable, say what remains unverified.
 
 ### Finish work on a branch or PR
 
@@ -207,11 +223,13 @@ A completed frontend-designer task should make the following visible to the user
 - the explicit acceptance criteria, exact targets and visible-boundary measurements when applicable;
 - the implementation or prioritized findings requested by the user;
 - tests and deterministic checks that ran;
-- desktop and narrow-width rendering status;
-- the visual-quality score and any automatic failures;
+- relevant viewport and changed-state verification status;
+- the full visual-quality score with core-category evidence, or the focused verification result;
 - exceptions, unavailable tools, unmapped components, and remaining assumptions.
 
 Compilation, lint, a route returning `200`, or the presence of Axiom imports is not enough to claim the interface is complete.
+
+Keep the report proportional to the work. Do not manufacture a whole-page score, an Axiom conformance claim, or a visual pass when the necessary evidence was unavailable.
 
 ## What the skill deliberately avoids
 
@@ -219,6 +237,7 @@ Compilation, lint, a route returning `200`, or the presence of Axiom imports is 
 - treating every section as a card or every secondary task as a drawer;
 - copying screenshot defects or arbitrary dimensions;
 - shrinking typography to make excessive content fit;
+- treating larger gaps or lower density as inherently better design;
 - repeating bright-green actions, badges, status, or metadata;
 - treating a happy-path mockup as a complete flow;
 - claiming visual, Figma, Axiom, or accessibility verification when the required tool was unavailable;
@@ -276,4 +295,7 @@ Project-level instructions still matter. Installing this skill gives the agent t
 - [Axiom V3 implementation rules](../skills/frontend-designer/references/axiom-v3-implementation.md)
 - [Interaction and composition](../skills/frontend-designer/references/interaction-and-composition.md)
 - [Visual quality gate](../skills/frontend-designer/references/visual-quality-gates.md)
+- [Visual library and private reference intake](../skills/frontend-designer/references/visual-library.md)
+- [Skill regression tasks and rendered benchmark](../skills/frontend-designer/evals/design-tasks.md)
+- [Fork maintenance and upstream reconciliation](fork-maintenance.md)
 - [Tien Le's original Virtual Design Teammate](https://github.com/notienle/virtual-design-teammate)

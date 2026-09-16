@@ -24,7 +24,7 @@ Choose one primary model before styling and explain why it fits in one sentence.
 | Queue | Items require triage or sequential decisions | Priority and next action dominate; summaries support sorting, not dashboard theater |
 | Grid | Users identify visual peers by scanning | Media dominates repeated cards; metadata stays quiet and consistent |
 | Table | Users compare structured attributes across many rows | Columns, alignment and scanning efficiency dominate; imagery is small and functional |
-| Master-detail | Users browse a collection while inspecting one selection | Master remains primary or co-primary; detail is stable, contextual and subordinate |
+| Master-detail | Users browse a collection while inspecting one selection | Browsing emphasizes the master; focused work may emphasize detail while preserving collection context |
 | Editor | Users create or modify one object over time | Work area and save/state model dominate; utilities stay peripheral |
 | Comparison | Users judge differences between known alternatives | Matched evidence and changed regions dominate; conclusion and actions stay close |
 | Dashboard | Users monitor multiple independent signals over time | Only use when cross-signal overview is itself the task; every metric must drive a decision |
@@ -81,10 +81,10 @@ Typography must establish hierarchy at the scale of the rendered surface.
 ### Product type roles
 
 - Use Axiom headings for page and section hierarchy.
-- Use Body/Medium (`md`, 14px) as the normal product body size.
-- Use Body/Large (`lg`, 16px) when a broad work surface, important explanation or sustained reading needs more presence.
-- Use Body/Small (`sm`, 12px) only for genuinely secondary metadata, timestamps and compact supporting detail.
-- Do not use `xs`/10px in this project.
+- Use the installed Axiom Body/Medium role as the normal product body size.
+- Use Body/Large when a broad work surface, important explanation or sustained reading needs more presence.
+- Reserve Body/Small for genuinely secondary metadata, timestamps and compact supporting detail.
+- Do not use the miniature `xs` role for product copy. Verify the current role-to-token mapping instead of inferring it from these names.
 
 Large interfaces with abundant space should not look miniaturized. Type scale must relate to the viewport and task, not only fit the panel.
 
@@ -103,7 +103,7 @@ Reducing font size is not an acceptable seventh step.
 
 ### Caption and monospaced restraint
 
-Caption is a distinct 12px uppercase Roboto Mono style. It is appropriate for terse machine-like identifiers, audit markers, compact state labels or technical readouts.
+In Axiom Play, Caption is a specialized uppercase monospaced wrapper. Inspect its current implementation before using it; it is not a general-purpose type role. It is appropriate for terse machine-like identifiers, audit markers, compact state labels or technical readouts.
 
 Caption is not appropriate for:
 
@@ -115,6 +115,18 @@ Caption is not appropriate for:
 - visual decoration.
 
 Use only a few captions in one view. Most section labels should use the product sans face with weight, size and spacing. Monospaced type is appropriate for codes, IDs, immutable values and deliberately machine-readable state—not for making a surface feel “AI.”
+
+### Reading comfort and font integrity
+
+Verify the approved font family and required weights in the rendered interface, including font-load success and actual face usage where browser tooling exposes it. A CSS family declaration alone does not prove that the font loaded. Do not silently accept fallback or synthesized weights as the intended design.
+
+Choose line height and text-column width together. Sustained prose needs more breathing room than single-line operational labels. Start with established Axiom text styles; use a moderate reading measure for prose rather than stretching it across the full workspace. Judge with realistic sentences, not a universal character-count quota. Tables and identifiers have different scanning needs.
+
+Use a small, deliberate set of type roles. Do not make everything semibold to manufacture hierarchy; distinguish page title, section title, body, label, and metadata through role, spacing, and placement. Numeric columns benefit from consistent alignment and tabular figures when the approved font supports them.
+
+Test at least one long title, multiline explanation, and long identifier where those are plausible. Decide which content wraps, which truncates, and how the full value remains accessible. Never truncate essential decision evidence without a way to inspect it. Check representative text at 200% zoom and narrow width; do not hide overflow to manufacture a clean screenshot. Use relevant localized samples when localization is in scope or already supported.
+
+Align text by the relationship: baseline for adjacent text, first-line alignment for a multiline labeled control, or centered alignment for a contained button. Inspect actual glyphs and icons as well as boxes; no universal subpixel optical offset applies to all fonts and shapes.
 
 ### Hierarchy test
 
@@ -217,7 +229,7 @@ Use a narrow, predictable Flow with visible labels, clear sections and a stable 
 
 ### Version comparison
 
-Show matched subjects and crops at comparable scale. Choose side-by-side, overlay, scrubber or rapid toggle based on which reveals change best. Make changed evidence and conclusion more important than an arbitrary score visualization.
+Distinguish a same-asset visual diff from an asset-replacement decision. For a visual diff, align subject, crop and scale so pixel changes are meaningful. For replacement review, different subjects or crops may be the intended change: label current and proposed versions, preserve useful context and show comparable presentation sizes without claiming pixel correspondence. Choose side-by-side, overlay, scrubber or toggle only when it reveals the relevant change. Keep evidence and conclusion more prominent than an arbitrary score.
 
 ### Task and workflow
 

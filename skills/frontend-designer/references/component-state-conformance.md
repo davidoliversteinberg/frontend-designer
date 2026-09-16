@@ -1,6 +1,6 @@
 # Component and state conformance
 
-Use this for every visible interface task. It prevents three false proofs of quality: a prototype looks plausible, a design-system component is imported, or the default state renders correctly.
+Use this when adding or changing controls, semantics, state transitions, or responsive component modes. It prevents three false proofs of quality: a prototype looks plausible, a design-system component is imported, or the default state renders correctly.
 
 The objective is not to remember more examples. Derive and verify the correct contract for the current interface from live evidence.
 
@@ -18,14 +18,14 @@ Do not let one source impersonate another. Visual resemblance does not prove a v
 
 ## 2. Build the semantic contract
 
-Before selecting components, inventory each distinct visible or interactive element by what the user needs it to do. Include controls rendered internally by compound components, overlays and responsive substitutions, not only JSX written directly in the changed file.
+Before selecting components, inventory each distinct contract affected by the change by what the user needs it to do. Include controls rendered internally by compound components, overlays and responsive substitutions, not only JSX written directly in the changed file.
 
 For each distinct contract, record:
 
 | User intent and semantic role | System primitive or pattern | Required anatomy and configuration | Applicable states and transitions | Distinct render modes | Evidence | Exception |
 | --- | --- | --- | --- | --- | --- | --- |
 
-Repeated instances may share one row only when they use the same implementation, configuration, state model and render mode. Do not begin implementation while a component mapping or state model is unresolved.
+Repeated instances may share one row when they use the same implementation, configuration, state model and render mode. Exercise representative content extremes and affected consumers of shared components. Reuse task evidence for unchanged contracts; do not inventory unrelated parts of the application for a small edit. Resolve the mapping and required state model before implementing the affected component; independent resolved work may proceed.
 
 ## 3. Resolve the system mapping
 
@@ -63,7 +63,7 @@ Every conformance row must pass all three layers:
 
 Inspect the rendered accessibility tree or focusable DOM together with the source inventory. This catches interactive descendants created by the design system that are absent from the changed JSX.
 
-For components that change rendering mode, test on both sides of the actual mode boundary. A generic desktop and narrow screenshot is insufficient when both widths happen to use the same mode.
+For affected components that change rendering mode, test on both sides of the actual mode boundary. A generic desktop and narrow screenshot is insufficient when both widths happen to use the same mode.
 
 ## 6. Diagnose and repair the owning layer
 
@@ -86,9 +86,9 @@ Before completion, reconcile the implementation and rendered interface back to e
 
 Completion is blocked when:
 
-- any visible or interactive contract has no resolved system mapping;
+- an affected visible or interactive contract has no resolved system mapping;
 - a prototype or Figma state conflicts with the current system contract without an explicit reconciliation;
-- any applicable state, transition or distinct render mode is untested;
+- an affected state, transition or distinct render mode is untested;
 - source structure passes while rendered behavior or appearance fails;
 - a failure is labeled upstream without isolated installed-version evidence;
 - the agent reports a defect but does not repair the owning layer when a safe in-scope repair exists.

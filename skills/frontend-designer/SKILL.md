@@ -1,120 +1,95 @@
 ---
 name: frontend-designer
 description: >
-  Design, build, or polish visible Optimizely product UI with explicit interaction-model
-  selection, strong composition, readable typography, disciplined content and actions,
-  verified design-system component and state conformance, responsive rendering, and scored
-  visual-quality validation. Use when making or changing interfaces; do not use for critique-only requests.
+  Design, build, or polish visible Optimizely product UI with Axiom, strong composition,
+  readable typography, restrained content, and rendered verification. Use when creating
+  interfaces, changing layouts, or making a screen calmer or clearer. For critique-only
+  requests, use an available design-review capability instead; do not edit the interface.
 metadata:
-  version: "1.1.0"
+  version: "1.2.0"
   phase: make
 ---
 
 # Optimizely frontend designer
 
-Use this skill for every visible product-UI design, implementation, or polish task. It is the authority for the made interface: product-design judgment comes first, Axiom implementation second, and rendered verification last.
+Design for the user's decision first, compose the interface second, implement with the verified system, then inspect the result. The target is clear, calm, operational, and recognizably Optimizely. Restraint does not mean sparse at any cost: useful density is appropriate when the task needs it.
 
-The target is calm, premium, intelligent, restrained, operational, enterprise credible and recognizably Optimizely. Do not import a generic creative-UI aesthetic, marketing-page novelty or maximalism into product surfaces.
+## Freshness and companions
 
-## Weekly skill freshness check
+At the first task in a session, run `node <this-skill-directory>/scripts/check-for-updates.mjs`. It caches attempts for seven days. Report a newer version, but never download or overwrite skills without approval. An unavailable check must not block design. Use `--force` only when explicitly asked to check now.
 
-At the start of the first `frontend-designer` task in a session, run `node <this-skill-directory>/scripts/check-for-updates.mjs`. The helper persists its last attempt and contacts the canonical GitHub source no more than once every seven days.
+This skill works alone. Add available companion capabilities only when materially needed: critique, complex flows, UX writing, accessibility depth, or requested handoff. Select them by their descriptions, not assumed installation names. A companion owns its specialist decision; this skill owns the integrated interface. Missing optional companions do not block safe work.
 
-- If it reports an update, tell the user the installed and available versions before continuing the design task.
-- Never download, merge, or overwrite skills automatically. Update only with explicit user approval, preserving repository-level instructions and project-pinned adaptations.
-- A cached result or unavailable network must not block the design task. State an unavailable check briefly only when the user asks about installation freshness.
-- Use `--force` only when the user explicitly asks to check now or troubleshoot installation freshness.
+For an ambiguous observation such as "this table feels cluttered," inspect and explain first; do not infer permission to edit. "Make this table calmer" authorizes a scoped change.
 
-## Optional companion routing
+## Load only the relevant guidance
 
-This skill is complete and usable on its own. Inspect the skills available in the current client and add only a companion whose description materially covers a needed capability:
+- **New screens or changes to hierarchy, layout, density, content, or type:** read [interaction and composition](references/interaction-and-composition.md).
+- **Every visible change:** read [visual quality gates](references/visual-quality-gates.md), choosing full-screen or focused verification.
+- **Adding or changing controls, states, semantics, or responsive modes:** read [component and state conformance](references/component-state-conformance.md). Reuse verified unchanged contracts.
+- **Explicit visual corrections or disputed geometry:** read [acceptance and geometry](references/acceptance-and-geometry.md).
+- **Axiom implementation or compliance claims:** read [Axiom evidence](references/axiom-evidence-and-compliance.md). Also read the [Axiom Play implementation profile](references/axiom-v3-implementation.md) when working in that repository; other repositories own their local wrappers and architecture.
+- **Screenshots, Figma, or visual calibration:** read [reference analysis](references/visual-reference-analysis.md) and the [visual library](references/visual-library.md); inspect the actual relevant images.
+- **Visual subjects such as DAM assets, Brand Packs, typography or imagery:** read [editorial surfaces](references/editorial-surfaces.md).
+- **Changed motion or animated states:** read [motion rules](references/motion-rules.md).
 
-- diagnosis of an existing artifact before changing it;
-- flows, branching, permissions, async behavior or recovery;
-- enterprise or general interaction patterns;
-- interface terminology and UX writing;
-- accessibility depth beyond the integrated completion gate;
-- developer handoff requested as an explicit deliverable.
+Read each selected reference completely. Do not load unrelated modes as ceremony.
 
-Select companions by their declared capability, not by a hardcoded repository or assumed skill name. Prefer the smallest useful set. A companion owns its specialist decision; this skill owns the integrated interface, implementation and completion gate. If no companion is installed, perform the essential work directly, name any unavailable depth, and continue when safe.
+## Authority and rule strength
 
-## Mandatory reading
+The user owns the task, explicit constraints, and approved departures. The installed package owns the available API; version-matched system evidence owns component semantics. The target repository owns build, architecture, navigation, and local conventions. Rendered evidence establishes what users can actually perceive and operate.
 
-For every visible UI task, read in this order:
+Fetch supplied Figma nodes and screenshots before implementation when accessible. They convey intended hierarchy, content, and visual acceptance, not proof of current component validity. Reconcile stale variants or inaccessible behavior openly. A user's requested change can intentionally depart from a Figma frame.
 
-1. [`references/interaction-and-composition.md`](references/interaction-and-composition.md) — interaction model, focal point, composition, typography, density, content, actions and surfaces.
-2. [`references/component-state-conformance.md`](references/component-state-conformance.md) — semantic intent, correct design-system mapping, derived state models, rendered modes and repair protocol.
-3. [`references/acceptance-and-geometry.md`](references/acceptance-and-geometry.md) — explicit acceptance criteria, systemic scope, visible-boundary measurement and correction-loop discipline.
-4. [`references/visual-quality-gates.md`](references/visual-quality-gates.md) — scored rendered-quality gate, accessibility, responsiveness and automatic failures.
+Distinguish three kinds of guidance:
 
-Then read only the references that apply:
+- **Requirements:** valid component contracts, accessibility, reachable actions, truthful content, and explicit user acceptance criteria. These block completion when unmet.
+- **Defaults:** type roles, spacing rhythm, density, and surface proportions. Adapt them to task, content, viewport, and approved patterns; explain material departures.
+- **Examples:** a specific screenshot or shipped product treatment. Transfer its useful relationship, not incidental dimensions, fonts, or brand styling.
 
-- [`references/axiom-evidence-and-compliance.md`](references/axiom-evidence-and-compliance.md) whenever the interface will use Axiom or claim Axiom compliance. It makes live component retrieval, Figma-to-code reconciliation and post-implementation proof mandatory.
-- [`references/axiom-v3-implementation.md`](references/axiom-v3-implementation.md) before writing or reviewing Axiom Play product UI code. Outside Axiom Play, apply its Axiom principles but defer repository paths and local wrappers to the target codebase.
-- [`references/editorial-surfaces.md`](references/editorial-surfaces.md) for DAM, Brand Packs, imagery, typography, logos, color systems, templates or other visual subjects.
-- [`references/visual-reference-analysis.md`](references/visual-reference-analysis.md) whenever a screenshot, mockup or prototype is supplied.
-- [`references/motion-rules.md`](references/motion-rules.md) when motion, transitions, loading, panels, menus or animated state changes are involved.
+An external brand reference can inform composition, not replace Axiom identity. Do not interpret an image as blanket system approval.
 
-A Figma link or node ID is fetchable evidence for product intent, hierarchy, content and visual acceptance. It is not proof that a named component, variant or visible state matches the current design-system contract. When one is supplied, fetch it (`get_design_context`, `get_variable_defs`, `get_screenshot`) before the design brief, then reconcile it through `component-state-conformance.md`. Preserve the intended experience while correcting stale, unsupported or behaviorally wrong component and state choices.
+## Design sequence
 
-The target repository's build, CSS, navigation, file architecture, and git rules remain authoritative. Product-domain rules and Opal-specific layers are additive; they do not override the design-quality contract.
+For a new screen or substantial redesign, write a compact internal brief:
 
-## Required design sequence
+1. **Decision and model:** what must the user do, and why does this interaction model fit?
+2. **Composition:** dominant, supporting, and utility regions; first three reading stops; purpose of quiet space.
+3. **Content and density:** realistic content, essential evidence, progressive disclosure, and where compactness helps.
+4. **Type and actions:** page/body/metadata roles, reading width, and one primary action per decision scope or intentionally none.
+5. **Surface boundaries:** what actually needs a card, panel, separator, drawer, or modal?
 
-Do not start with components. Before coding, write a compact internal design brief:
+When two materially different compositions are plausible, compare them briefly against task fit, evidence scale, scanning effort, and action reach. Choose one before detailed implementation; do not generate alternatives mechanically for small fixes.
 
-1. **User decision:** what must the user understand, judge or do?
-2. **Primary interaction model:** choose queue, grid, table, master-detail, editor, comparison, dashboard, or focused modal/sheet; explain why it fits in one sentence.
-3. **Composition:** name the dominant, supporting and utility regions; define the first three stops in the reading order and the purpose of any quiet space.
-4. **Content budget:** remove repeated status, metadata and controls; decide what is progressively disclosed.
-5. **Type and action hierarchy:** identify readable body copy, limited metadata, and the one primary action for the current scope (or intentionally none).
-6. **Surface plan:** choose open space, separators, cards, panels, drawers or modals because of workflow boundaries—not because they are convenient containers.
+For a focused edit, state only the intended improvement, affected region/states, and invariants to preserve. Do not redesign unrelated areas.
 
-If these choices are unclear, inspect nearby production-quality screens and the supplied positive references before implementation.
+## Design contract
 
-## Product-design contract
+- Establish hierarchy with scale, placement, type, alignment, and spacing before adding badges, borders, or color.
+- Choose spacing by relationships and density needs. More whitespace is not automatically better; retain readable content and adequate targets.
+- Use the approved product font and verify its rendered use. Do not invent font pairings or shrink essential copy to hide content excess.
+- Localize density; keep the main task recognizable even in a dense operational interface.
+- Reserve bright green for a meaningful primary action, not repeated row actions or selected filters.
+- Give visual subjects enough scale to judge. Give configuration predictable labels, grouping, and save behavior.
+- Use real or realistic content early. Test long names, multiline text, and relevant non-happy states before calling the composition settled.
+- Make a subtractive pass after the first render: remove a badge, border, label, or control only when its removal preserves meaning and operability.
 
-- One task owns the surface and one region owns the user's attention.
-- Page-level hierarchy is established before component-level styling.
-- Typography, alignment and spacing carry hierarchy before badges, borders or color.
-- Surfaces breathe. The working spacing set is `32` / `24` / `16`, and when a gap is genuinely ambiguous the larger step wins — under-spacing is this design language's characteristic failure, not over-spacing.
-- Spacing is chosen from the relationship between two elements, never from how much room is left. See the spacing-rhythm section of `axiom-v3-implementation.md`.
-- Large work surfaces use readable body type. Never shrink text to make excessive content fit.
-- Caption and monospaced uppercase text are specialized styles, not default section labels.
-- Density is localized. A dense operational panel may sit beside a quiet workspace; the entire page must not feel equally dense.
-- Green is selective: one filled primary action at most per visible decision scope, never repeated bright-green row/card actions, and never as a selected filter treatment.
-- Visual inspection surfaces give the subject enough scale to judge. Configuration surfaces favor narrow, predictable form structure.
-- A drawer stays secondary and brief. Promote deep comparison or complex review into a workspace with enough width.
-- Screenshots provide relationships and quality evidence. Extract requirements; do not copy prototype defects or incidental dimensions.
+## Implementation and completion
 
-The detailed rules and positive alternatives live only in the references above. Do not recreate parallel doctrine in feature files or other skills.
+Resolve changed component/state mappings before implementing them. Verify Axiom contracts once per component/version/configuration in the task and refresh evidence when that contract changes. Never invent an API, primitive, or wrapper without first checking supported system and local patterns.
 
-## Implementation contract
+Implement within the requested scope. Respect repository architecture; avoid unrelated refactors. Do not leave dead controls or claim behavior not implemented.
 
-After the design brief:
+For new screens or substantial redesigns, render the primary viewport and a narrower one, exercise changed states, and test both sides of affected responsive mode boundaries. Score the rendered screen using the quality gate: **17/20, no zero, all three core craft categories at 2, and no automatic failure**. Each core score needs observable evidence, not flattering adjectives.
 
-- Inspect nearby live routes and reusable components.
-- Resolve the component-and-state conformance record before coding. The presence of a design-system import never proves that the correct primitive, anatomy, props, states or responsive mode were used.
-- Implement with the applicable Axiom authority and target-repository rules. For Axiom work, complete the Axiom evidence record before coding.
-- Preserve semantic tokens, spacing tokens, icon-package rules, form/menu rules, dark mode, accessibility and file boundaries.
-- Do not invent a design-system primitive, generic wrapper or component infrastructure until live lookup and installed-package inspection prove there is no suitable component or documented composition. A shared wrapper also needs repeated product use or explicit user scope.
-- Never leave dead controls or claim behavior that is not implemented.
-- Do not extend a monolithic file; split concerns before adding behavior.
+For a focused change, verify the exact target, relevant interaction and responsive states, and adjacent regressions. Do not issue a whole-page score for unreviewed areas or broaden scope to repair unrelated pre-existing issues.
 
-## Completion contract
+Explicit corrections remain blocking until the exact route, object, state, and viewport satisfy the user's acceptance criterion. Measure numeric requirements and ambiguous geometry; do not produce a measurement ledger for every element.
 
-Visible UI work is incomplete until it is rendered at the primary desktop width, a narrower width, and both sides of every discovered component-mode boundary, compared against the reconciled design and system contracts, and scored with `visual-quality-gates.md`.
+Run the target repository's relevant checks. In Axiom Play, run `yarn check:axiom <changed TSX files>`; run `yarn test:axiom-check` when the checker changes. Separate pre-existing findings from introduced ones.
 
-Every explicit user correction remains a blocking acceptance criterion until the exact route, object, state and viewport pass against the visible rendered boundary. A prior pass is revoked when the user reports that the defect remains. Do not substitute a similar component, route or state, and do not use computed styles or invisible layout bounds to overrule contradictory pixels.
+If browser, font, component, or reference evidence is unavailable, name the gap and limit the claim. Never claim visual verification from code or a self-assigned score alone. Report changed scope, inspected evidence, verification, material exceptions, and remaining uncertainty concisely.
 
-Minimum passing score: **17/20 with no zero and no automatic failure**. TypeScript, lint, route `200`, or component compliance alone never proves visual quality.
+## Maintaining this skill
 
-Completion requires the conformance postflight in `component-state-conformance.md`. For Axiom work, also complete `axiom-evidence-and-compliance.md`: verify every changed compound or interactive component against live documentation and the installed package, run the repository's deterministic Axiom check when available, and report any exception or unverifiable mapping.
-
-In Axiom Play, run `yarn check:axiom <changed TSX files>` before completion, and `yarn test:axiom-check` whenever the checker itself changes. Its rules are enumerated in `axiom-evidence-and-compliance.md`; satisfy them while writing, and report pre-existing findings separately from introduced ones.
-
-Measure what you changed, not only the page around it. A whole-page score can pass while the one new control on it is wrong. For every element added or moved, report its painted size, its gap to the neighbour it groups with, and its measured alignment offset against whatever it should line up with — see *Measure what you changed* in `axiom-v3-implementation.md`. Before assuming a prop exists, check it against the installed `.d.ts`; the *What Axiom does not have* section in the same file lists the absences that have caused real defects.
-
-If browser or screenshot verification is unavailable, state that explicitly and do not claim the UI is visually verified.
-
-In the completion report, name any companion skills that materially contributed, summarize the Axiom/Figma/repository/browser evidence actually inspected, and separate verified outcomes from remaining assumptions or unavailable checks.
+When changing the skill itself, use [regression tasks](evals/design-tasks.md). Structural checks and textual forward tests do not replace a rendered, reference-calibrated benchmark.

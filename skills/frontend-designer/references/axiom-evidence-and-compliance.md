@@ -22,7 +22,7 @@ Before writing UI code:
 1. Detect the installed Axiom React and icon versions from the target repository. Identify the package manager and authoritative lockfile.
 2. If Figma is supplied, fetch the target node, variables and screenshot. Record component instance names and Code Connect information when available.
 3. Complete the semantic component-and-state inventory in `component-state-conformance.md`. Include interactive descendants, states and render modes generated internally by compound components, not only elements visible in the default artifact or changed JSX.
-4. Query the stable Axiom MCP for every selected interactive or compound component, even when its name seems familiar:
+4. Query the configured official Axiom MCP for each changed interactive or compound contract. Reuse retrieved evidence within this task when component version, configuration and relevant context are unchanged; familiarity alone is not evidence:
    - use `search_components` when the mapping is unknown;
    - use `get_component` for the exact API, subcomponents and relevant props;
    - use `get_patterns` for compound composition and components used together;
@@ -30,7 +30,7 @@ Before writing UI code:
    - use `search_icons` instead of guessing an export;
    - use `get_guides` or `get_tests` when setup or behavior is material.
 5. Reconcile MCP results with installed exports and types. The installed package wins when versions differ.
-6. Write a compact internal component evidence record:
+6. Keep one compact internal record shared with the conformance workflow; do not maintain duplicate tables:
 
 | Intent and semantic role | Figma evidence | Axiom component or pattern | Required anatomy/configuration | State model and render modes | Installed verification | Exception |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -89,14 +89,14 @@ A gap may justify a local implementation only when the user requested it or the 
 After implementation and before visual scoring:
 
 1. Inventory every changed Axiom component, compound part, icon and token.
-2. Re-run `get_component` for each changed compound or interactive component and compare the implementation with its current parts, props and documented pattern.
+2. Compare changed compound/interactive components with the retrieved contract. Refresh lookup if the version, selected component, relevant configuration, or documentation evidence changed, or a mismatch remains unresolved. Do not repeat identical retrieval merely to perform a postflight.
 3. Reinspect parent/child layout defaults whenever padding, margin, overflow, position, display or sizing was overridden.
 4. Confirm every imported component and icon exists in the installed packages.
 5. Run TypeScript, lint and the repository's deterministic Axiom checker when one exists. Treat unsupported props, legacy component parts, invalid compound anatomy, raw replacement controls and icon-policy failures as blockers.
 6. Reconcile the rendered accessibility tree or focusable DOM with the component-and-state inventory so internally rendered controls are not omitted.
-7. Exercise every applicable transition and distinct render mode, then complete `component-state-conformance.md`, `acceptance-and-geometry.md` and `visual-quality-gates.md`.
+7. Exercise affected transitions and distinct render modes, then complete component conformance and the scoped visual-quality gate. Use `acceptance-and-geometry.md` when an explicit correction or disputed geometry requires it.
 8. Diagnose and repair the owning layer for every mismatch. An upstream claim requires isolated evidence against the installed version and does not permit a completion claim while the required behavior remains broken.
-9. Report the component evidence record, checks run, exceptions, version differences and anything that could not be verified.
+9. Report checks run, material exceptions, version differences and anything unverified. Keep routine passing inventory internal unless the user requests the detailed record.
 
 Code compilation does not prove correct composition. Visual similarity does not prove valid API use. Both evidence paths must pass.
 

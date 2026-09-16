@@ -1,6 +1,6 @@
 # Acceptance and geometry
 
-Use this for every visible UI task. It turns requirements, reference evidence and user corrections into observable completion criteria and prevents a locally plausible measurement from overruling the rendered result.
+Use this for explicit visual corrections, numeric acceptance criteria, or disputed geometry. It turns the changed scope and user corrections into observable completion criteria and prevents a locally plausible measurement from overruling the rendered result. Routine small edits use the scoped visual-quality gate without requiring a separate acceptance table.
 
 ## 1. Lock the acceptance contract
 
@@ -25,7 +25,7 @@ Fix the rule that produced the defect, not only the first visible instance. Inve
 - every distinct render mode, including structural or behavioral changes caused by viewport, container, overlay or input method;
 - sibling routes only when they reuse the same implementation or rule.
 
-Do not wander to a similar-looking component while leaving the named target unresolved. Verify the exact target first, then prove the systemic fix across the inventory.
+Do not wander to a similar-looking component while leaving the named target unresolved. Verify the exact target first, then prove the systemic fix across affected implementations and representative content/state extremes. Identical repeated instances can share evidence; do not redesign unrelated consumers.
 
 ## 3. Measure the painted result
 
@@ -40,6 +40,8 @@ Distinguish:
 Compute insets from the reference bounds to the painted target bounds. Inspect the full ancestor chain for padding, negative margin, overflow, position, transform, grid/flex alignment and pseudo-elements. A correct child-to-parent number is invalid evidence when that parent extends outside a clipped visible container.
 
 Use computed styles to explain pixels, not to replace them. Screenshot evidence and geometry must agree. If the screenshot appears wrong while the measurement appears right, the task fails until the discrepancy is explained.
+
+Do not confuse a clipped layout rectangle with visible ink: an SVG viewBox can contain empty space, and a text Range reports line fragments rather than exact glyph edges. Record the boundary actually measured and use the screenshot to confirm perceptual alignment.
 
 ## 4. Preserve compound layout contracts
 
@@ -82,5 +84,5 @@ Completion requires all of the following:
 - the systemic instances and relevant states pass;
 - the semantic mapping, component contract and rendered state agree;
 - computed geometry agrees with captured pixels;
-- every distinct render mode passes, not merely two arbitrary viewport widths;
+- every affected distinct render mode passes, not merely two arbitrary viewport widths;
 - any unavailable evidence is named rather than assumed.
