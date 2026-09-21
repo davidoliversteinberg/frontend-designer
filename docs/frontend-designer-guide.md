@@ -277,7 +277,20 @@ For a manual personal installation, clone the repository and copy each active fo
 
 Some Codex installations use `$CODEX_HOME/skills` (normally `~/.codex/skills`) instead. Confirm the discovery path shown by your client before copying. A valid installation has one folder per skill; do not rename `frontend-designer/SKILL.md` to `frontend-designer.md` or place it directly at the skills root.
 
-To update, pull the latest `main`, sync the active `skills/` folders into the same personal directory, validate that `frontend-designer/SKILL.md` is present, and start a new Claude/Codex session so skill discovery and cached metadata refresh.
+To update, run the bundled merge script from the installed skill rather than copying a release over it:
+
+```sh
+node <installed-skill-directory>/scripts/apply-update.mjs          # plan only
+node <installed-skill-directory>/scripts/apply-update.mjs --apply  # perform it
+```
+
+It clones the canonical source, classifies every path, and reports what it intends to do before writing anything. Then validate that `frontend-designer/SKILL.md` is present and start a new Claude/Codex session so skill discovery and cached metadata refresh.
+
+Do not update with `rsync --delete`, a directory replace, or anything else that treats the installation as a mirror of upstream. An installation accumulates local work — a designer's added reference note, a rule a project pinned deliberately — and a mirroring copy removes or reverts all of it without saying so. The script keeps every locally edited and locally added file, applies the rest, and writes an upstream copy beside a conflicted file as `<file>.upstream-<version>` so the diff is one command away.
+
+It decides whether a file is still upstream's using `.install-manifest.json`, which it writes in the skill directory and which records two hashes per file: the content upstream shipped, and the content on disk. Both are needed. Keeping only the on-disk hash would record a preserved local edit as the new baseline, and the following release would read that file as untouched and overwrite it. Until a baseline exists, the first run reports every difference as a conflict rather than guessing, which errs toward keeping local work; precision arrives once that run writes the manifest. Commit the manifest in a shared repository, or a fresh clone starts with no baseline.
+
+Where a skill is installed in more than one place — a personal directory and a project copy — update each one; they do not track each other.
 
 The bundled checker normally runs automatically when `frontend-designer` is used. To check immediately from a cloned repository or installed skill, run:
 

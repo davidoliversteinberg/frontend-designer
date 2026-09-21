@@ -23,6 +23,11 @@ The skill:
 
 Read the [complete user guide](docs/frontend-designer-guide.md) for the workflow, evidence model, prompt recipes, installation details, and completion contract.
 
+## What's new in 1.2.1
+
+- A bundled [merge script](skills/frontend-designer/scripts/apply-update.mjs) applies a release without destroying local work. Copying a release over an installation silently removes a designer's added references and reverts locally pinned rules; the script classifies every path, keeps what is local, and saves the upstream version beside a conflicted file for a human to merge. Dry run is the default.
+- The [visual library](skills/frontend-designer/references/visual-library.md) and [team manual](docs/visual-reference-team-manual.md) now cover references shared inside a private repository, so colleagues receive the same calibration examples on pull instead of each designer collecting them alone. Local-only remains the default, and public contribution is unchanged.
+
 ## What's new in 1.2.0
 
 - Stronger typography checks: actual font loading and weights, line height, reading width, wrapping, long content, and zoom.
@@ -37,7 +42,7 @@ Read the [complete user guide](docs/frontend-designer-guide.md) for the workflow
 
 In Codex:
 
-> Use $frontend-designer to review and finish this interface. Verify the component and state contracts against the installed design system, fix the owning layer of every important defect, and run the rendered conformance postflight.
+> Use $frontend-designer to review and finish this interface. Verify the component and state contracts against the installed design system, fix the owning layer of every important defect, and score the rendered result against the visual quality gate.
 
 In Claude Code:
 

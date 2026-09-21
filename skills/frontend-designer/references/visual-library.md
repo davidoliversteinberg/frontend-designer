@@ -35,6 +35,8 @@ Use concrete captions such as "the workflow panel contains density while the edi
 
 Keep incoming private images in the target repository's ignored `design-references/inbox/` and register inspected examples in its `catalog.md`. Preserve originals. For an explicitly approved shareable package, copy only cleared images into a `visuals/` directory alongside this reference and register those real relative paths below. Do not create fake files or dangling paths. Receiving an attachment is not permission to publish it.
 
+A team working in a private repository may also commit references so colleagues receive them on pull, using a second directory such as `design-references/shared/` while raw drops stay ignored in `inbox/`. Committing the catalog itself is reasonable there — the written record of what was inspected outlives any one machine — but only when every entry is cleared for everyone with repository access, since owner names and internal links usually appear in it. Confirm the repository is actually private before relying on this; local-only remains the default, and a public repository still takes cleared images only.
+
 ## Use during design
 
 Select one or two examples that match the task and density. Inspect their actual pixels before the brief; compare the rendered result at comparable viewing scale after implementation. Check reading order, type hierarchy, grouping, evidence scale and action reach, not superficial pixel similarity.

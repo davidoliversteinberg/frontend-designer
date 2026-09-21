@@ -1,6 +1,6 @@
 {
   "name": "frontend-designer",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Design, implement, diagnose, and quality-gate Optimizely interfaces with verified component and state conformance.",
   "author": {
     "name": "David Steinberg and contributors",
@@ -29,7 +29,7 @@
     "websiteURL": "https://github.com/davidoliversteinberg/frontend-designer",
     "defaultPrompt": [
       "Use frontend-designer to implement this interface with verified Axiom component and state contracts.",
-      "Review and fix this UI, then run the rendered conformance postflight.",
+      "Review and fix this UI, then score the rendered result against the visual quality gate.",
       "Reconcile this Figma design with the installed Axiom version and implement it."
     ]
   }
