@@ -21,7 +21,8 @@ Paths below are relative to the relevant repository, not a designer's personal h
 | Location | Purpose | Sharing behavior |
 | --- | --- | --- |
 | Product repo: `design-references/inbox/` | Private incoming images, optionally grouped by product or pattern | Local-only by default; must be ignored by Git |
-| Product repo: `design-references/inbox/catalog.md` | Index of actual images, provenance, lessons, caveats, and review status | Private with the images |
+| Product repo: `design-references/inbox/catalog.md` | Index of actual images, provenance, lessons, caveats, and review status | Private with the images by default; see [internally shared references](#internally-shared-references-in-a-private-repository) |
+| Product repo: `design-references/shared/` | Optional. Images the team has cleared for everyone with repository access | Committed, so colleagues receive them on pull. Private repositories only |
 | Skill repo: `skills/frontend-designer/references/visual-library.md` | Instructions for finding, selecting, and interpreting references; register of any public examples | Ships with the skill |
 | Skill repo: `skills/frontend-designer/references/visuals/<product>/` | Future contributions explicitly cleared for public distribution | Public after merge; create only when real cleared files are added |
 
@@ -48,6 +49,28 @@ design-references/inbox/
 ```
 
 If you use Git, `git check-ignore -v design-references/inbox/catalog.md` should show the applicable ignore rule. Ignoring a path does not remove files already tracked or erase prior publication. If something private was already committed, stop and involve the repository owner before publishing anything further.
+
+### Internally shared references in a private repository
+
+Local-only is the default because most incoming material is uncleared. But a team working in a private repository often wants the opposite for a subset of it: everyone should get the same calibration examples on pull, without each designer re-collecting them. Keeping those in one person's ignored inbox means the reference exists for one machine and nobody else.
+
+In a private repository you can add a committed `design-references/shared/` beside the ignored `inbox/`, and commit `catalog.md` so the written record travels with the repository even when some pixels cannot. Only do this when:
+
+- the repository is genuinely private, and you have confirmed that rather than assumed it;
+- every committed image is cleared for everyone with repository access;
+- every catalog entry is too. Owner names, internal links, and approval notes are normal in a catalog, and committing it publishes them to every reader.
+
+Scope the ignore rule to the images rather than the directory, so the catalog stays tracked. A `.gitignore` inside `inbox/` keeps the rule next to what it governs:
+
+```text
+*
+!.gitignore
+!catalog.md
+```
+
+Verify both halves before adding anything real: `git check-ignore -v design-references/inbox/<image>` should name that rule, and `git status` should show `catalog.md` as tracked. An uncleared image still belongs in `inbox/`, and moving a file to `shared/` is a clearance decision, not a tidying one.
+
+This is a private-repository pattern only. Public contribution still goes through `skills/frontend-designer/references/visuals/<product>/` and the review route below.
 
 ## Choose references that teach something
 

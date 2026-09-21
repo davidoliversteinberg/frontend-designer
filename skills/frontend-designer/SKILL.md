@@ -6,7 +6,7 @@ description: >
   interfaces, changing layouts, or making a screen calmer or clearer. For critique-only
   requests, use an available design-review capability instead; do not edit the interface.
 metadata:
-  version: "1.2.0"
+  version: "1.2.1"
   phase: make
 ---
 
@@ -17,6 +17,8 @@ Design for the user's decision first, compose the interface second, implement wi
 ## Freshness and companions
 
 At the first task in a session, run `node <this-skill-directory>/scripts/check-for-updates.mjs`. It caches attempts for seven days. Report a newer version, but never download or overwrite skills without approval. An unavailable check must not block design. Use `--force` only when explicitly asked to check now.
+
+Once an update is approved, apply it with `node <this-skill-directory>/scripts/apply-update.mjs`; dry run is the default and `--apply` writes. Never copy a release over an installation with `rsync --delete` or an equivalent. An installation is not a mirror of upstream: a designer's added reference and a locally pinned rule are both lost silently that way, and neither loss is reported. The script classifies each path, keeps every locally edited or locally added file, and saves the upstream version beside a conflicted one for a human to merge.
 
 This skill works alone. Add available companion capabilities only when materially needed: critique, complex flows, UX writing, accessibility depth, or requested handoff. Select them by their descriptions, not assumed installation names. A companion owns its specialist decision; this skill owns the integrated interface. Missing optional companions do not block safe work.
 
