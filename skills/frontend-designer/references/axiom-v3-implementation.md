@@ -143,7 +143,12 @@ If the repository provides a Caption wrapper, reuse it only for its specialized 
 
 ## Buttons and forms
 
-- Primary page/panel actions: `Button appearance="primary" size="md"` or `size="lg"`.
+- Size a primary action by the level of the surface it serves:
+  - **Top-level product pages** (primary-navigation destinations such as a library, plan, list or dashboard index): the page's primary CTA is `Button appearance="primary" size="lg"`. Header companions on the same row (secondary buttons, menu triggers, `SearchInput`) also use `lg` so the row reads as one height.
+  - **Second-level surfaces** (detail pages, tabs within a page, side panels, drawers, section headers, empty states inside a region): `size="md"`.
+  - **Dialog and alert-dialog footers**: leave buttons unsized. `DialogFooter` and `AlertDialogFooter` provide `lg` through `ButtonProvider`; do not override it.
+  - **`size="sm"`**: dense chrome only, as defined below.
+- Give a leading icon to the primary CTA through the `icon` prop. On `size="lg"`, Axiom draws it in the inverse icon chip automatically; do not recreate the chip.
 - Secondary: `appearance="default"`.
 - Tertiary: `appearance="subtle"`.
 - Destructive: `appearance="danger"` or `danger-outline` as supported.

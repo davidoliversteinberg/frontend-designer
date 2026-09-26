@@ -6,7 +6,7 @@ description: >
   interfaces, changing layouts, or making a screen calmer or clearer. For critique-only
   requests, use an available design-review capability instead; do not edit the interface.
 metadata:
-  version: "1.2.0"
+  version: "1.2.1"
   phase: make
 ---
 
