@@ -23,6 +23,10 @@ The skill:
 
 Read the [complete user guide](docs/frontend-designer-guide.md) for the workflow, evidence model, prompt recipes, installation details, and completion contract.
 
+## What's new in 1.2.1
+
+- Primary CTAs are sized by the surface they serve: `lg` on top-level product pages (with same-row header companions matched to `lg`), `md` on detail pages, tabs, panels, drawers and in-region empty states, and unsized in dialog footers, where Axiom supplies `lg`. `sm` stays reserved for dense chrome.
+
 ## What's new in 1.2.0
 
 - Stronger typography checks: actual font loading and weights, line height, reading width, wrapping, long content, and zoom.
