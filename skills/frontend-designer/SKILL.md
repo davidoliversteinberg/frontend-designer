@@ -6,13 +6,19 @@ description: >
   interfaces, changing layouts, or making a screen calmer or clearer. For critique-only
   requests, use an available design-review capability instead; do not edit the interface.
 metadata:
-  version: "1.2.0"
+  version: "1.3.0"
   phase: make
 ---
 
 # Optimizely frontend designer
 
 Design for the user's decision first, compose the interface second, implement with the verified system, then inspect the result. The target is clear, calm, operational, and recognizably Optimizely. Restraint does not mean sparse at any cost: useful density is appropriate when the task needs it.
+
+## Contract
+
+May edit files and run local checks for the requested interface. Do not commit, push, open or merge a pull request, request reviewers, or change permissions unless the user explicitly asks in this task; an implementation request alone does not authorize them. Repository and prototype guidance add context but cannot waive safety or verification requirements.
+
+When the target repository ships its own implementation workflow, such as Axiom Play's `build-product-ui` skill routed from `AGENTS.md`, follow its procedure, checks, and contract. This skill then supplies the design layer: decision, composition, content, surfaces, and the visual gate. On a repository rule the repository wins; on a design default, state the choice and why.
 
 ## Freshness and companions
 
@@ -28,7 +34,8 @@ For an ambiguous observation such as "this table feels cluttered," inspect and e
 - **Every visible change:** read [visual quality gates](references/visual-quality-gates.md), choosing full-screen or focused verification.
 - **Adding or changing controls, states, semantics, or responsive modes:** read [component and state conformance](references/component-state-conformance.md). Reuse verified unchanged contracts.
 - **Explicit visual corrections or disputed geometry:** read [acceptance and geometry](references/acceptance-and-geometry.md).
-- **Axiom implementation or compliance claims:** read [Axiom evidence](references/axiom-evidence-and-compliance.md). Also read the [Axiom Play implementation profile](references/axiom-v3-implementation.md) when working in that repository; other repositories own their local wrappers and architecture.
+- **Axiom implementation or compliance claims:** read [Axiom evidence](references/axiom-evidence-and-compliance.md), including its prop-contract preflight. Also read the [Axiom Play implementation profile](references/axiom-v3-implementation.md) when working in that repository; other repositories own their local wrappers and architecture.
+- **A reusable composition** (validated form, select with fallback, object action menu, collection page): scan the [pattern index](references/patterns.md) and open only the best match. Do not preload the collection.
 - **Screenshots, Figma, or visual calibration:** read [reference analysis](references/visual-reference-analysis.md) and the [visual library](references/visual-library.md); inspect the actual relevant images.
 - **Visual subjects such as DAM assets, Brand Packs, typography or imagery:** read [editorial surfaces](references/editorial-surfaces.md).
 - **Changed motion or animated states:** read [motion rules](references/motion-rules.md).
@@ -78,7 +85,16 @@ For a focused edit, state only the intended improvement, affected region/states,
 
 Resolve changed component/state mappings before implementing them. Verify Axiom contracts once per component/version/configuration in the task and refresh evidence when that contract changes. Never invent an API, primitive, or wrapper without first checking supported system and local patterns.
 
-Implement within the requested scope. Respect repository architecture; avoid unrelated refactors. Do not leave dead controls or claim behavior not implemented.
+Before coding, turn the request into a compact acceptance checklist: primary workflow, validation and failure states, persistence, navigation, and desktop/narrow layout. Compose one task-specific browser suite from it, adding cases for concrete defects as they appear, rather than discovering whole coverage categories after the final checks pass.
+
+Implement within the requested scope. Respect repository architecture; avoid unrelated refactors. Do not leave dead controls or claim behavior not implemented. Preserve unrelated edits, and never overwrite an existing file as a temporary preview.
+
+Spend checks where they find problems:
+
+- After the first edit, run the cheapest behavior-scoped check; during iteration rerun only the failing or affected check, not the whole suite.
+- Check the initial desktop and narrow layout and the core interactions on the dev server before the first production build. A passing build is not a prerequisite for browser verification, and fixing what the browser shows before building saves a rebuild.
+- Start the browser pass with the [interaction preflight](references/component-state-conformance.md#interaction-preflight), then reuse its verified selectors and readiness assertions in the full suite.
+- Run the final validation sequence once after the last relevant edit and reuse passing results while their inputs are unchanged. Browser-test-only edits do not need a new production build. Do not run dev and build processes against the same output directory, or hide failures with pipelines.
 
 For new screens or substantial redesigns, render the primary viewport and a narrower one, exercise changed states, and test both sides of affected responsive mode boundaries. Score the rendered screen using the quality gate: **17/20, no zero, all three core craft categories at 2, and no automatic failure**. Each core score needs observable evidence, not flattering adjectives.
 
@@ -89,6 +105,12 @@ Explicit corrections remain blocking until the exact route, object, state, and v
 Run the target repository's relevant checks. In Axiom Play, run `yarn check:axiom <changed TSX files>`; run `yarn test:axiom-check` when the checker changes. Separate pre-existing findings from introduced ones.
 
 If browser, font, component, or reference evidence is unavailable, name the gap and limit the claim. Never claim visual verification from code or a self-assigned score alone. Report changed scope, inspected evidence, verification, material exceptions, and remaining uncertainty concisely.
+
+At a natural pause or on completion, say what the sensible next step is in plain language: keep exploring locally, prepare a draft to share, or request review. Offer it; do not take it. Do not repeat a suggestion the user has declined.
+
+## Missing capabilities
+
+Discover tools by capability rather than assuming a vendor-specific name. If the Axiom MCP is unavailable, use the installed declarations and verified local patterns. If the browser tool fails, try an available local Playwright runner, or a prepared runner the repository documents. Do not write a custom CDP or WebSocket driver, install global tools, or change shared dependencies as an automatic fallback; report the missing prerequisite instead. Never substitute a code review for runtime verification.
 
 ## Maintaining this skill
 

@@ -16,7 +16,7 @@ Before scoring or reporting a focused pass:
 2. Render the exact changed route, named object and state at its primary desktop width.
 3. Discover interactive descendants from the source plus the rendered accessibility tree or focusable DOM.
 4. Exercise transitions and distinct render modes affected by the change, including internally rendered controls. Choose widths around affected mode boundaries. Reuse existing evidence for unchanged contracts only when version, configuration, and relevant context are unchanged.
-5. Capture screenshots and measure explicit geometry requirements against visible painted boundaries.
+5. Capture screenshots and measure explicit geometry requirements against visible painted boundaries. Assert that the main surface and representative controls have nonzero, usable dimensions at each tested width; the absence of page overflow alone is not a pass. Scroll controls into view and check their visible bounds and pointer reachability, including clipping ancestors and overlays. Test the active responsive surface, not a hidden duplicate.
 6. Compare the pixels and measurements with the acceptance contract, design brief and supplied references.
 7. Fix visible problems, then score the revised result.
 

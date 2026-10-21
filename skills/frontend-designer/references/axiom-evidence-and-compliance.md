@@ -39,6 +39,16 @@ Do not begin component infrastructure while an evidence row is unresolved.
 
 If the MCP is unavailable, inspect the installed declarations/source and the official documentation links below. State that live retrieval was unavailable. Do not guess.
 
+## Prop-contract preflight
+
+A component name or a successful import does not prove that its prop set is valid. Before using a new component or configuration, list the actual JSX props and enum values it will receive, including inherited styling props and required compound children, and resolve each against the installed declaration or matching MCP documentation. Keep the list in working notes, not in the application, and reuse it for every instance with the same contract.
+
+- Do not transfer props between components. A Badge's `intent` does not prove that Button has one; verify Button's own destructive appearance.
+- Check style-prop spellings and token domains explicitly. A CSS property name is not automatically an Axiom prop: verify the installed border shorthand rather than assuming `borderBottom`.
+- Check sizing per component. `Textarea` in Axiom 3.1.6 takes no `size`; use `rows` and layout props. `LabelMenuButton` fixes its own size. Do not copy a sizing prop to a neighbouring control because they share a row.
+- Check required compound children and prop forwarding for `asChild` and local layout wrappers. `Flow` injects margins into direct children, and a Fragment cannot receive them; use a concrete child that forwards margin props.
+- Before the first full typecheck, scan the changed JSX for newly introduced or copied props and resolve only the unchecked ones. The typecheck and runtime console assertions stay required; never suppress a type error or warning to pass them.
+
 ## Compound component contracts
 
 Treat these as Optimizely implementation rules and verify upstream APIs live before use.
@@ -64,10 +74,10 @@ Use the Axiom `Button` `icon` and `iconPosition` API. Do not manually assemble i
 
 Apply the Optimizely product convention unless the supplied Figma component or a verified product rule says otherwise:
 
-- a leading/start Material icon uses its filled treatment;
-- a trailing/end Material icon uses its unfilled treatment;
+- a filled Material icon marks a selected navigation item; unselected navigation items use the unfilled treatment. Do not infer fill from a button's leading or trailing position, size or appearance;
+- `Button` owns its icon's size: do not pass `size`, `width`, `height` or font-size to an icon inside `icon`, an addon or the children;
 - an icon-only button has an accessible name and a tooltip when its meaning is not obvious;
-- menu, ellipsis, disclosure, select and segmented triggers use their purpose-built Axiom components instead of a generic Button recreation.
+- menu, ellipsis, disclosure, select and segmented triggers use their purpose-built Axiom components instead of a generic Button recreation. A `*Trigger` already renders a button: put button props on the trigger rather than wrapping an Axiom `Button` with `asChild`. Purpose-built buttons such as `EllipsisMenuButton` and `LabelMenuButton` are the intended `asChild` children.
 
 Verify that the chosen icon export and filled variant exist. A visually similar invented name is not an acceptable fallback.
 
@@ -83,6 +93,8 @@ For every Figma component instance:
 Then reconcile the Figma variant and visible state with the current component's documented state model. Preserve the product intent, not an unsupported or stale representation. When they disagree, classify the conflict as a prototype defect, version mismatch, intentional product exception or design-system gap before implementation.
 
 A gap may justify a local implementation only when the user requested it or the target repository already owns that pattern. A new shared wrapper needs a demonstrated gap and repeated credible use. Keep an isolated prototype clearly labeled when those conditions are not met.
+
+In Axiom Play, a product-neutral reusable component that fills a real gap belongs in `components/axiom-candidates/`, following that folder's README: its own subdirectory, focused tests, and a short record of the need, API, states and browser evidence. Product-specific UI, routing, mock data and product language stay with the owning prototype.
 
 ## Mandatory postflight
 
@@ -102,20 +114,23 @@ Code compilation does not prove correct composition. Visual similarity does not 
 
 ## The deterministic checker, rule by rule
 
-In Axiom Play the checker is `yarn check:axiom <changed TSX files>` (`scripts/check-axiom.mjs`), with `yarn test:axiom-check` when the checker itself changes. It encodes rules stated nowhere else in this skill, so satisfy them while writing rather than discovering them at the gate:
+In Axiom Play the checker is `yarn check:axiom <changed TSX files>` (`scripts/check-axiom.mjs` plus `scripts/check-axiom-rules.mjs`), with `yarn test:axiom-check` when the checker itself changes. With no file arguments it checks files changed against `origin/main`. Its own `scripts/check-axiom.md` is the authority for the current rule set; the table below summarizes it as of October 2026. It encodes rules stated nowhere else in this skill, so satisfy them while writing rather than discovering them at the gate:
 
-| Rule | What it requires |
+| Rules | What they require |
 | --- | --- |
-| `button-icon-fill-start` | A leading Material icon on a `Button` uses the filled treatment — `<IconPlus filled size={14} />` |
-| `button-icon-fill-end` | A trailing icon stays unfilled |
-| `button-icon-label` | An icon-only `Button` carries an accessible label |
-| `button-manual-icon` | Icons pass through `icon`/`iconPosition`, never hand-composed inside `children` |
-| `raw-control` | No raw `button`/`input`/`select`/`textarea` where an Axiom control exists |
-| `invented-component` | No locally invented primitive standing in for an Axiom one |
-| `invented-icon` | No hand-drawn SVG standing in for a packaged icon |
-| `tabler-icon` | No `@tabler/icons-react` in product code |
-| `card-header`, `card-action-slot`, `card-checkbox-slot`, `legacy-card-part` | Card anatomy uses the current slots, not superseded parts |
-| `card-preview-visible-inset` | A `CardPreview`'s visible inset survives its parent's padding and overflow |
+| `raw-control`, `invented-component`, `invented-icon`, `tabler-icon` | Axiom controls and packaged icons, not raw controls, local stand-in primitives, hand-drawn SVG icons or Tabler |
+| `button-icon-label`, `button-manual-icon`, `button-icon-size`, `icon-stroke` | Icon-only buttons are labelled; icons pass through `icon`/`iconPosition`; Button owns icon size; no `stroke`/`strokeWidth` on Material icons |
+| `card-header`, `card-action-slot`, `card-checkbox-slot`, `legacy-card-part`, `card-preview-visible-inset`, `nested-card` | Current Card anatomy and slots, a visible preview inset, and no card inside a card |
+| `compound-component-anatomy`, `trigger-as-child-button`, `as-child-content` | `Select`, `Menu` and `Dialog` roots have their required parts; triggers are not wrapped around a Button; `asChild` receives exactly one element |
+| `deprecated-flex`, `box-flex-container` | `Group` for flex layout, not `Flex` or `Box display="flex"` |
+| `flow-child-margin` | No vertical margins, including zero, on direct children of `Flow` |
+| `typography-color-override` | `Text` and `Heading` keep their default colors; no `color` prop or inline color |
+| `invalid-component-size`, `unsupported-component-prop`, `heading-level` | Valid Button and Input sizes, no `Badge.colorScheme` or sized `LabelMenuButton`, and Heading levels `"1"`–`"4"` |
+| `hardcoded-ui-color`, `negative-letter-spacing` | Semantic color tokens and no negative letter spacing on product UI |
+| `nested-interactive`, `positive-tabindex`, `empty-accessibility-attribute`, `image-alt`, `button-type` | Operable, labelled markup in natural focus order |
+| `controlled-default-conflict`, `controlled-input-handler`, `duplicate-jsx-prop`, `void-element-children`, `html-children-conflict`, `invalid-jsx-syntax` | Well-formed React props and markup |
+
+A narrowly scoped, documented exception uses the checker's rule-specific ignore comment beside the element, for a genuine case such as a chart's categorical color. Never suppress a rule to make a check pass.
 
 Run the checker on the files changed, then read the findings against a pre-change baseline. Report pre-existing findings separately from any introduced by this work; do not present an unchanged count as a pass.
 

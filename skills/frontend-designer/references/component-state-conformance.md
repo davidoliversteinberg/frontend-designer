@@ -65,6 +65,18 @@ Inspect the rendered accessibility tree or focusable DOM together with the sourc
 
 For affected components that change rendering mode, test on both sides of the actual mode boundary. A generic desktop and narrow screenshot is insufficient when both widths happen to use the same mode.
 
+### Interaction preflight
+
+Before scripting the full browser suite, run one short scenario on the dev server that proves the page is ready and the selectors are true:
+
+- Wait on a readiness assertion tied to the changed surface, not a fixed delay or an HTTP `200`.
+- Select by role and accessible name from the rendered tree. A selector copied from source is a guess until it matches one visible element.
+- Discover how each checkbox or radio is labelled (enclosing label, `htmlFor`, `aria-labelledby`) before clicking its visible label. Never build `label[for]` from an input ID that does not exist. Assert the checked state after the click.
+- Measure a compound control's painted boundary separately from its editable area. Icons, addons and padding shrink the input inside the visible box, so one minimum width does not describe both. Assert enough editable space as well as the outer boundary, and do not lower a failed threshold without checking the intended surface and screenshot.
+- Inspect the screenshots now, not only after the build. Passing clicks do not prove a readable layout: check control width, wrapping, alignment and grouping of representative forms, grouped choices, dialogs and navigation states.
+
+Reuse the preflight's verified selectors and readiness assertions in the full suite; do not rerun it as a separate gate while its inputs are unchanged.
+
 ## 6. Diagnose and repair the owning layer
 
 When evidence disagrees, classify the first incorrect layer:
