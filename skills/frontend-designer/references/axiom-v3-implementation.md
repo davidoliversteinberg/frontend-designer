@@ -141,25 +141,35 @@ Follow the reading-comfort and font-integrity checks in `interaction-and-composi
 
 If the repository provides a Caption wrapper, reuse it only for its specialized role. Inspect the path and implementation instead of assuming that every Optimizely repository shares Axiom Play's structure.
 
+Keep `Text` and `Heading` at their default colors and build hierarchy from role, size, weight and placement. Do not mute descriptions or body copy with `color="fg.secondary"` to make them look quieter; muted body text loses contrast first and stops reading as content. Axiom Play's checker enforces this (`typography-color-override`). A genuine semantic exception, such as an error message, uses the checker's rule-specific ignore comment with its reason.
+
 ## Buttons and forms
 
-- Primary page/panel actions: `Button appearance="primary" size="md"` or `size="lg"`.
+- Size a primary action by the level of the surface it serves:
+  - **Top-level product pages** (primary-navigation destinations such as a library, plan, list or dashboard index): the page's primary CTA is `Button appearance="primary" size="lg"`. Header companions on the same row (secondary buttons, menu triggers, `SearchInput`) also use `lg` so the row reads as one height.
+  - **Second-level surfaces** (detail pages, tabs within a page, side panels, drawers, section headers, empty states inside a region): `size="md"`.
+  - **Dialog and alert-dialog footers**: leave buttons unsized. `DialogFooter` and `AlertDialogFooter` provide `lg` through `ButtonProvider`; do not override it.
+  - **`size="sm"`**: dense chrome only, as defined below.
+- Give a leading icon to the primary CTA through the `icon` prop. On `size="lg"`, Axiom draws it in the inverse icon chip automatically; do not recreate the chip.
 - Secondary: `appearance="default"`.
 - Tertiary: `appearance="subtle"`.
 - Destructive: `appearance="danger"` or `danger-outline` as supported.
 - `size="sm"` is limited to genuinely dense toolbars or compact contextual chrome, not standalone consequential CTAs.
 - `Input` and `SearchInput` support `md` (default), `lg` and `xl`; never `sm`.
-- Wrap inputs with `Field`; do not create manual text labels.
+- Wrap inputs with `Field`; do not create manual text labels. A visual header-and-action row above a control is not a label; keep field errors associated with their controls.
 - Keep form-control sizes consistent within a row or section.
-- Pass icons through `Button`'s `icon` and `iconPosition` props. Apply the leading-filled/trailing-unfilled convention from `axiom-evidence-and-compliance.md`; do not hand-compose icon spacing inside Button children.
+- Pass icons through `Button`'s `icon` and `iconPosition` props without a size; Button owns icon sizing. Follow the fill convention in `axiom-evidence-and-compliance.md` (filled marks selected navigation, not button position); do not hand-compose icon spacing inside Button children.
+- Submit forms through a `<form>` with a `type="submit"` Button so Enter and the button take the same path.
 
-`Select` is data-driven. `value` must match one of `options`; validate persisted/remote values before rendering. Do not render native `<option>` children.
+`Select` is data-driven and needs `SelectTrigger` and `SelectContent`. `value` must match one of `options`; validate persisted/remote values before rendering and choose an intentional fallback. Do not render native `<option>` children. Use a documented multi-selection component rather than assuming any menu can multi-select. See [control patterns](patterns/controls.md).
 
 ## Menus
 
 Use Axiom V3 `Menu` with the `options` prop, `MenuTrigger` and `MenuContent`. Do not introduce `DropdownMenu`.
 
-`MenuOption[]` supports search, nested `subOptions`, grouped labels/separators, `addon`, `detail`, `intent: "danger"`, `disabledReason` and `keywords`. Helpers should return `MenuOption[]`, not JSX fragments. Use `subOptionsInputVisible` and `keywords` for searchable submenus instead of hand-rolled input state.
+`MenuOption[]` supports search, nested `subOptions`, grouped labels/separators, `addon`, `detail`, `intent: "danger"`, `disabledReason` and `keywords`. Helpers should return `MenuOption[]`, not JSX fragments. Use `subOptionsInputVisible` and `keywords` for searchable submenus instead of hand-rolled input state. Separate groups with the `group` API, not custom rules drawn inside the menu.
+
+Use `Menu` for commands and `Select` for choosing a form value. Every option needs a working callback; an empty or decorative menu is a dead control.
 
 ## Badges, pills and shared atoms
 
@@ -181,7 +191,9 @@ Use one owner for page padding. Do not stack route padding on shell padding. Sta
 - tabs to immediate work surface: `16`;
 - major section separation: `24` or `32`.
 
-Use `useLayout()` from `app/context/LayoutContext.tsx` for `asideContent`, `footerContent`, `hidePageHeader`, `opalPanelControls` and other shell injection. Use `app/usePersistentState.js` for localStorage-backed state and wait for `isHydrated` before hydration-sensitive rendering.
+Use `useLayout()` from `app/context/LayoutContext.tsx` for `asideContent`, `footerContent`, `hidePageHeader`, `opalPanelControls` and other shell injection. Clean injected content up the way neighbouring pages do, and keep callbacks passed into effects stable; an unstable callback in an effect's dependency array is the usual cause of a "Maximum update depth exceeded" loop. Use `app/usePersistentState.js` for localStorage-backed state and wait for `isHydrated` before hydration-sensitive rendering. Validate restored values against the current options or data model; stored state outlives the code that wrote it.
+
+For a data-dependent empty page, render `<EmptyList hidePageHeader ... />` inside the layout provider. While mounted it hides the shell's title and description but keeps page padding. Use it only for a hydrated, genuinely empty collection, not for an empty filter result.
 
 ## Configuration forms and `Flow`
 
@@ -193,7 +205,8 @@ Use `useLayout()` from `app/context/LayoutContext.tsx` for `asideContent`, `foot
 - Put notices before the first section heading.
 - Put the save action in `Footer` from LayoutContext, outside Flow.
 - Put dialogs outside Flow.
-- Only direct children receive Flow spacing; wrappers hide their descendants from it.
+- Only direct children receive Flow spacing; wrappers hide their descendants from it, and a Fragment cannot receive the margin. Children must accept Axiom margin props for the rhythm to render.
+- The rhythm is set by child type: `Text`, `Heading` (by level), `Field`, `Button` and `Separator` have their own top and bottom spacing; other children get a fallback top margin; the first child gets none.
 
 Canonical structure:
 
@@ -206,7 +219,7 @@ Canonical structure:
     <Field label="Description"><Textarea rows={3} /></Field>
     <Separator />
     <Heading level="4">Delete</Heading>
-    <Text color="fg.secondary">This cannot be undone.</Text>
+    <Text>This cannot be undone.</Text>
     <Button appearance="danger">Delete</Button>
   </Flow>
   <Footer><Button appearance="primary">Save</Button></Footer>
@@ -219,9 +232,9 @@ Canonical structure:
 | Area | Package |
 | --- | --- |
 | `app/opal/` | `@optiaxiom/icons` first; `@optimizely/axiom-icons` only for a missing icon |
-| All other product areas | `@optimizely/axiom-icons` |
+| All other product areas | `@optiaxiom/icons` (directly, or via the `app/lib/axiom-icons.tsx` shim) |
 
-Never import `@tabler/icons-react` directly in product UI. Outside Opal, add a missing-icon fallback only in `app/lib/axiom-icons.tsx`. CMP custom SVG components live in `app/cmp/assets/` and use `fill="currentColor"`.
+Never import `@tabler/icons-react` directly in product UI. The shim's Tabler quarantine block is closed — do not add to it. `@optiaxiom/icons` glyphs are filled paths, so `stroke` / `strokeWidth` have no effect. CMP custom SVG components live in `app/cmp/assets/` and use `fill="currentColor"`.
 
 The temporary Sub Agent icon remains `IconAgent` until the correct Material-style export exists; do not use the dashed-box `IconSubAgent`.
 
@@ -234,19 +247,23 @@ The temporary Sub Agent icon remains `IconAgent` until the correct Material-styl
 
 ## Markup and hydration gotcha
 
-Axiom `Box` renders a `div`; `as="span"` is ignored. Inside a button/menu label that renders a `p`, use `asChild` with a native `span`:
+Axiom `Box` and `Group` render a `div`; `as="span"` is ignored. Inside a button/menu label that renders a `p`, use `asChild` with a native `span`. Use `Group`, not `Box display="flex"`, for flex layout (`box-flex-container`):
 
 ```tsx
-<Box asChild display="inline-flex" alignItems="center" gap="8">
+<Group asChild display="inline-flex" alignItems="center" gap="8">
   <span><IconClock />All Time</span>
-</Box>
+</Group>
 ```
 
-Use a keyed `React.Fragment` when a `.map()` iteration returns multiple siblings; shorthand fragments cannot receive a key.
+`asChild` takes exactly one element child, never text, siblings or a Fragment.
+
+Use a keyed `React.Fragment` when a `.map()` iteration returns multiple siblings; shorthand fragments cannot receive a key. Key by stable domain IDs, not array positions.
 
 ## Tables
 
-Use the shared `Table`, `Th`, `Td`, and `Tr` wrappers. Selectable rows should make the row target predictable; avoid repeated edit buttons when row selection opens the same detail flow.
+When extending an existing table, use what it already uses: most Axiom Play tables use the shared `Table`, `Th`, `Td` and `Tr` wrappers from `app/components/Table.tsx`; newer ones compose Axiom's `Table`, `TableHeader`, `TableBody`, `TableRow`, `TableHeaderCell` and `TableCell` directly. Match the nearest surface rather than mixing the two in one table. Selectable rows should make the row target predictable; avoid repeated edit buttons when row selection opens the same detail flow.
+
+Collect row commands (Edit, Duplicate, Delete) into one `Menu` in a trailing actions cell, triggered by `MenuTrigger asChild` around an `EllipsisMenuButton` with a row-specific accessible name and tooltip, such as `Actions for ${item.name}`. Keep the object name as direct navigation and collection-level actions in the toolbar. Put destructive options last with `intent: "danger"` and confirm before deleting. See the [list view pattern](patterns/list-view.md).
 
 For grouped/collapsible tables:
 
@@ -255,6 +272,8 @@ For grouped/collapsible tables:
 - use `colSpan` on the group label cell;
 - keep child-row content aligned with a fixed placeholder matching the chevron target;
 - render group and children in a keyed `React.Fragment`;
+- keep row selection distinct from group expansion, with correct expanded and mixed-selection states;
+- update selected IDs and collapsed groups immutably, and check empty groups, partial selection and filtering;
 - preserve keyboard-operable controls and visible focus.
 
 The established alignment uses 16px first-column inset, a 32px chevron/placeholder target and small content-column inset. Inspect the current shared-table implementation before copying values into a new table.
@@ -278,6 +297,8 @@ When present, the target repository's Opal-specific design skill remains authori
 - Native select children: use `options`.
 - `bg.pill.default` on `Box`: use the token only on `Pill`.
 - `prefers-color-scheme`: replace with the repository theme selector.
+- `Flex` or `Box display="flex"`: use `Group`.
+- A prop borrowed from a neighbouring component, such as `size` on `Textarea` or `intent` on `Button`: check the component's own declaration.
 
 ## Implementation verification
 

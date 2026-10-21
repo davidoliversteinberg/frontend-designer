@@ -23,6 +23,21 @@ The skill:
 
 Read the [complete user guide](docs/frontend-designer-guide.md) for the workflow, evidence model, prompt recipes, installation details, and completion contract.
 
+## What's new in 1.3.0
+
+1.3.0 adopts the strongest engineering practices from Ben Holme's `build-product-ui` skill in [Axiom Play](https://github.com/episerver/axiom-play), so the skill keeps its design judgment and gains a faster, stricter build loop.
+
+- **Contract:** the skill edits and runs local checks only. It never commits, pushes, opens a pull request or requests review unless asked. When a repository ships its own build workflow, the skill follows it and supplies the design layer.
+- **Prop-contract preflight:** the actual JSX props are checked against the installed declarations before the first typecheck, including props wrongly borrowed from a neighbouring component.
+- **Cheaper iteration:** run the cheapest relevant check first, rerun only what failed, check layout in the browser before the production build, and run the final validation once.
+- **Interaction preflight:** readiness assertions, role-based selectors, checkbox label wiring, and the editable area of compound controls are proven before the full browser suite.
+- **Runnable patterns:** a [pattern index](skills/frontend-designer/references/patterns.md) with a validated form, a select with a fallback, an action menu and a full list view, type-checked against Axiom 3.1.6 and passing the Axiom Play checker.
+- **Current checker:** the rule table matches the Axiom Play checker on `main`, including Group for flex layout, Flow margins, default Text colors, Button-owned icon sizes and trigger composition.
+- **Icon fill:** filled icons mark selected navigation, replacing the previous leading-filled button rule.
+- **Button sizing by surface:** `lg` for a top-level page's primary action row, `md` on second-level surfaces, unsized in dialog footers.
+- **Non-destructive updates:** `scripts/apply-update.mjs` merges a new release into an installed copy without overwriting local edits.
+- **Axiom candidates:** reusable product-neutral components go in Axiom Play's `components/axiom-candidates/`.
+
 ## What's new in 1.2.0
 
 - Stronger typography checks: actual font loading and weights, line height, reading width, wrapping, long content, and zoom.
