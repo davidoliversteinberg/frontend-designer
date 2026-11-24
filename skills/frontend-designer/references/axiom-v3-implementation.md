@@ -27,7 +27,7 @@ Do not use raw `button`, `input`, `select` or `textarea` when an Axiom equivalen
 
 When a component lacks an exact layout prop, wrap it in `Box` or use `style`; do not replace an accessible Axiom control with custom markup.
 
-Icon-only buttons require an accessible label and a tooltip when the meaning is not obvious. Do not leave dead buttons, filters, tabs, menus or ellipsis actions.
+Icon-only buttons require an accessible label and a tooltip when the meaning is not obvious. Do not leave dead buttons, filters, tabs, menus or ellipsis actions in functional scope; intentionally static prototype controls are covered by the visual-quality gate.
 
 ## Semantic colors
 
@@ -50,7 +50,9 @@ Common roles:
 
 `bg.pill.default` is scoped to `Pill`; it is not valid on `Box`.
 
-Selected filters, tabs and toggle-like button groups use Axiom's selected state or `var(--ax-colors-bg-default-pressed)`, never `bg.accent`.
+Selected filters, tabs, tools and toggle-like button groups render `bg.default.pressed`, never `bg.accent`. "Native" is not automatically neutral: `ToggleButton`'s default appearance fills its pressed state with `bg.accent` (primary green). Use `appearance="subtle"` or `SegmentedControl`, whose native pressed state is `bg.default.pressed`. Never restyle a pressed state with CSS to hide the wrong component choice; change the component, then confirm the rendered selected colour is not the accent. Axiom Play's checker flags the default `ToggleButton` (`toggle-button-accent-selected`).
+
+Use `SegmentedControl` only for view modes that show the same content another way, such as list or grid, or a device preview. A choice that changes which items are listed is a filter: use a `Menu` with a `LabelMenuButton`, as in the [picker with search and filter](patterns/picker-with-filter.md).
 
 ### Match token meaning to usage
 
@@ -231,12 +233,14 @@ Canonical structure:
 
 | Area | Package |
 | --- | --- |
-| `app/opal/` | `@optiaxiom/icons` first; `@optimizely/axiom-icons` only for a missing icon |
-| All other product areas | `@optiaxiom/icons` (directly, or via the `app/lib/axiom-icons.tsx` shim) |
+| All product areas | `@optiaxiom/icons`; import it directly in new code |
+| Existing non-Opal code | May keep importing through the `app/lib/axiom-icons.tsx` shim |
+
+`@optimizely/axiom-icons` was removed from Axiom Play in November 2026. Do not import it or suggest it as a fallback; when `@optiaxiom/icons` lacks a glyph, use a CMP custom SVG component or name the gap.
 
 Never import `@tabler/icons-react` directly in product UI. The shim's Tabler quarantine block is closed — do not add to it. `@optiaxiom/icons` glyphs are filled paths, so `stroke` / `strokeWidth` have no effect. CMP custom SVG components live in `app/cmp/assets/` and use `fill="currentColor"`.
 
-The temporary Sub Agent icon remains `IconAgent` until the correct Material-style export exists; do not use the dashed-box `IconSubAgent`.
+The Sub Agent nav item uses `IconAgent` from `@optiaxiom/icons` as a stand-in until a Material `web_traffic`-style export exists.
 
 ## Dark mode and CSS
 
