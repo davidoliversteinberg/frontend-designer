@@ -6,8 +6,9 @@ Runnable compositions for recurring Axiom Play needs. Shared component rules liv
 | --- | --- |
 | [Control patterns](patterns/controls.md) | Building a validated form, a controlled select with a fallback, or an object action menu. |
 | [List view](patterns/list-view.md) | Composing a collection page with search, filter menus, a create action, results, row actions and pagination. |
+| [Picker with search and filter](patterns/picker-with-filter.md) (candidate) | Choosing one item from a browsable set of more than one kind, in a dialog or beside a form; or deciding between `SegmentedControl` and a filter. |
 
-The examples are adapted from Ben Holme's `build-product-ui` skill in Axiom Play.
+The examples are adapted from the `build-product-ui` skill in Axiom Play: controls and list view by Ben Holme, the picker by Stefan Svebeck.
 
 ## Maintenance standard
 

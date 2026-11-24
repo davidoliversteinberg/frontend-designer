@@ -23,6 +23,19 @@ The skill:
 
 Read the [complete user guide](docs/frontend-designer-guide.md) for the workflow, evidence model, prompt recipes, installation details, and completion contract.
 
+## What's new in 1.4.0
+
+1.4.0 catches up with `build-product-ui` on Axiom Play `main` as of 24 November 2026.
+
+- **Static prototypes are allowed:** fake forms, unwired inputs, placeholder actions and static filters or tabs no longer fail the quality gate when they are outside the agreed scope. Requested interactions still have to work.
+- **No green for selected states:** `ToggleButton`'s default pressed state is primary green, so use `appearance="subtle"` or `SegmentedControl`. `SegmentedControl` is for view modes; a choice that changes which items are listed is a filter. Matches the checker's new `toggle-button-accent-selected` rule.
+- **Picker with search and filter:** a new candidate pattern by Stefan Svebeck, type-checked and passing the Axiom Play checker.
+- **Workflow state tests:** approval, publication and history flows test changed dependencies, withdrawn approval and partial save failures.
+- **Scope checks:** check the branch's diff before adding work, and decide whether a parallel route or store extends, replaces or experiments beside an existing one.
+- **Icons:** `@optimizely/axiom-icons` was removed from Axiom Play; the skill now points only to `@optiaxiom/icons`.
+- **Axiom candidates:** check the existing candidate catalog before building a new component.
+- **Repository process:** Project browser registration, handoffs and the shared changelog are followed from the repository's own instructions.
+
 ## What's new in 1.3.0
 
 1.3.0 adopts the strongest engineering practices from Ben Holme's `build-product-ui` skill in [Axiom Play](https://github.com/episerver/axiom-play), so the skill keeps its design judgment and gains a faster, stricter build loop.

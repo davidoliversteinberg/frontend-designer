@@ -8,6 +8,10 @@ For a new screen or substantial change to its interaction model, hierarchy, or c
 
 For repeated components, cover each distinct implementation/configuration/mode and representative content extremes; identical rows do not need individual measurement reports. A shared-component change requires checking its affected consumers, not merely one happy-path instance.
 
+### Intentional static prototypes
+
+Designers may prototype fake forms, unbound inputs, placeholder actions and static filters or tabs. Judge them against the intended design task, not production functionality. Missing data binding, submission, persistence or downstream behavior is not a defect when it is outside the agreed scope: do not block the work, lower scores, require disabled styling or disclaimer text, or add unwanted functionality to satisfy this gate. A brief note in the report is enough. Controls needed for an explicitly requested interaction or agreed walkthrough must still work. Valid anatomy, labels, legibility, focus and layout remain required, and a static control must not submit or navigate unexpectedly.
+
 ## Required evidence
 
 Before scoring or reporting a focused pass:
@@ -15,7 +19,7 @@ Before scoring or reporting a focused pass:
 1. Define the changed scope. Use `component-state-conformance.md` for changed controls/behavior/modes and `acceptance-and-geometry.md` for explicit corrections or ambiguous geometry.
 2. Render the exact changed route, named object and state at its primary desktop width.
 3. Discover interactive descendants from the source plus the rendered accessibility tree or focusable DOM.
-4. Exercise transitions and distinct render modes affected by the change, including internally rendered controls. Choose widths around affected mode boundaries. Reuse existing evidence for unchanged contracts only when version, configuration, and relevant context are unchanged.
+4. Exercise transitions and distinct render modes within the agreed functional scope, including internally rendered controls. Intentionally static controls need rendering and layout verification, not binding or submission tests. Choose widths around affected mode boundaries. Reuse existing evidence for unchanged contracts only when version, configuration, and relevant context are unchanged.
 5. Capture screenshots and measure explicit geometry requirements against visible painted boundaries. Assert that the main surface and representative controls have nonzero, usable dimensions at each tested width; the absence of page overflow alone is not a pass. Scroll controls into view and check their visible bounds and pointer reachability, including clipping ancestors and overlays. Test the active responsive surface, not a hidden duplicate.
 6. Compare the pixels and measurements with the acceptance contract, design brief and supplied references.
 7. Fix visible problems, then score the revised result.
@@ -72,7 +76,7 @@ Any of these blocks completion regardless of score:
 - nested cards without a workflow reason;
 - no clear focal point;
 - unrelated or unaligned imagery presented as a pixel-level diff; clearly labeled asset-replacement review may intentionally show different subjects;
-- dead controls, empty menus, fake filters or tabs with no content;
+- controls, menus, filters or tabs that fail behavior required by the agreed functional scope, and empty menus or tabs with no content; intentional static prototypes described above are not failures;
 - broken keyboard interaction, focus visibility or essential contrast;
 - broken responsive layout, incorrect responsive component mode or horizontal clipping at the tested width;
 - unverified rendered screenshots;

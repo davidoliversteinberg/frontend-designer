@@ -94,7 +94,7 @@ Then reconcile the Figma variant and visible state with the current component's 
 
 A gap may justify a local implementation only when the user requested it or the target repository already owns that pattern. A new shared wrapper needs a demonstrated gap and repeated credible use. Keep an isolated prototype clearly labeled when those conditions are not met.
 
-In Axiom Play, a product-neutral reusable component that fills a real gap belongs in `components/axiom-candidates/`, following that folder's README: its own subdirectory, focused tests, and a short record of the need, API, states and browser evidence. Product-specific UI, routing, mock data and product language stay with the owning prototype.
+In Axiom Play, a product-neutral reusable component that fills a real gap belongs in `components/axiom-candidates/`, following that folder's README: its own subdirectory, focused tests, and a short record of the need, API, states and browser evidence. Product-specific UI, routing, mock data and product language stay with the owning prototype. Check the existing candidates first (more than a dozen by November 2026, including `EmptyList`, `Flow`, `MetricCard`, `ObjectCard`, `ObjectReferenceChip` and `ProvenanceBadge`) and import several through `@/components/axiom-candidates`. A candidate is not approved Axiom API.
 
 ## Mandatory postflight
 
@@ -127,6 +127,7 @@ In Axiom Play the checker is `yarn check:axiom <changed TSX files>` (`scripts/ch
 | `typography-color-override` | `Text` and `Heading` keep their default colors; no `color` prop or inline color |
 | `invalid-component-size`, `unsupported-component-prop`, `heading-level` | Valid Button and Input sizes, no `Badge.colorScheme` or sized `LabelMenuButton`, and Heading levels `"1"`–`"4"` |
 | `hardcoded-ui-color`, `negative-letter-spacing` | Semantic color tokens and no negative letter spacing on product UI |
+| `toggle-button-accent-selected` | `ToggleButton` without `appearance`, or with `appearance="default"`, paints its pressed state primary green; use `appearance="subtle"` or `SegmentedControl` |
 | `nested-interactive`, `positive-tabindex`, `empty-accessibility-attribute`, `image-alt`, `button-type` | Operable, labelled markup in natural focus order |
 | `controlled-default-conflict`, `controlled-input-handler`, `duplicate-jsx-prop`, `void-element-children`, `html-children-conflict`, `invalid-jsx-syntax` | Well-formed React props and markup |
 

@@ -6,7 +6,7 @@ description: >
   interfaces, changing layouts, or making a screen calmer or clearer. For critique-only
   requests, use an available design-review capability instead; do not edit the interface.
 metadata:
-  version: "1.3.0"
+  version: "1.4.0"
   phase: make
 ---
 
@@ -18,7 +18,9 @@ Design for the user's decision first, compose the interface second, implement wi
 
 May edit files and run local checks for the requested interface. Do not commit, push, open or merge a pull request, request reviewers, or change permissions unless the user explicitly asks in this task; an implementation request alone does not authorize them. Repository and prototype guidance add context but cannot waive safety or verification requirements.
 
-When the target repository ships its own implementation workflow, such as Axiom Play's `build-product-ui` skill routed from `AGENTS.md`, follow its procedure, checks, and contract. This skill then supplies the design layer: decision, composition, content, surfaces, and the visual gate. On a repository rule the repository wins; on a design default, state the choice and why.
+When the target repository ships its own implementation workflow, such as Axiom Play's `build-product-ui` skill routed from `AGENTS.md`, follow its procedure, checks, and contract. This skill then supplies the design layer: decision, composition, content, surfaces, and the visual gate. On a repository rule the repository wins; on a design default, state the choice and why. Repository process steps, such as Axiom Play's Project browser registration, handoff contract and shared changelog, belong to that workflow; follow them from the repository's own instructions rather than from memory of this skill.
+
+Before adding work, check the current branch's diff against its intended base. If it already carries unrelated feature streams, say so and agree a bounded slice instead of silently growing the branch. Do not switch branches, split commits, or synchronize without authorization.
 
 ## Freshness and companions
 
@@ -35,7 +37,7 @@ For an ambiguous observation such as "this table feels cluttered," inspect and e
 - **Adding or changing controls, states, semantics, or responsive modes:** read [component and state conformance](references/component-state-conformance.md). Reuse verified unchanged contracts.
 - **Explicit visual corrections or disputed geometry:** read [acceptance and geometry](references/acceptance-and-geometry.md).
 - **Axiom implementation or compliance claims:** read [Axiom evidence](references/axiom-evidence-and-compliance.md), including its prop-contract preflight. Also read the [Axiom Play implementation profile](references/axiom-v3-implementation.md) when working in that repository; other repositories own their local wrappers and architecture.
-- **A reusable composition** (validated form, select with fallback, object action menu, collection page): scan the [pattern index](references/patterns.md) and open only the best match. Do not preload the collection.
+- **A reusable composition** (validated form, select with fallback, object action menu, collection page, picker with search and filter): scan the [pattern index](references/patterns.md) and open only the best match. Do not preload the collection.
 - **Screenshots, Figma, or visual calibration:** read [reference analysis](references/visual-reference-analysis.md) and the [visual library](references/visual-library.md); inspect the actual relevant images.
 - **Visual subjects such as DAM assets, Brand Packs, typography or imagery:** read [editorial surfaces](references/editorial-surfaces.md).
 - **Changed motion or animated states:** read [motion rules](references/motion-rules.md).
@@ -87,12 +89,17 @@ Resolve changed component/state mappings before implementing them. Verify Axiom 
 
 Before coding, turn the request into a compact acceptance checklist: primary workflow, validation and failure states, persistence, navigation, and desktop/narrow layout. Compose one task-specific browser suite from it, adding cases for concrete defects as they appear, rather than discovering whole coverage categories after the final checks pass.
 
-Implement within the requested scope. Respect repository architecture; avoid unrelated refactors. Do not leave dead controls or claim behavior not implemented. Preserve unrelated edits, and never overwrite an existing file as a temporary preview.
+Match interaction depth to the designer's intent. In a design prototype, visual-only forms, unbound inputs, placeholder actions and static filters or tabs are legitimate: missing data binding, submission or persistence is not a defect when that behavior is outside the agreed scope. Do not expand a visual task into functional implementation, add disabled styling or disclaimer text, or keep asking permission to leave them unwired; note intentional static behavior briefly in the report. Explicitly requested interactions and the controls needed for an agreed walkthrough must still work, and a static control must not submit or navigate unexpectedly.
+
+Before adding a parallel route, registry or state store beside an existing experience, decide whether it extends, replaces or deliberately experiments alongside it. Reuse the existing source of truth where appropriate, document intentional isolation and reset behavior, and do not silently make an experiment the default entry point.
+
+Implement within the requested scope. Respect repository architecture; avoid unrelated refactors. Do not claim behavior that is not implemented. Preserve unrelated edits, and never overwrite an existing file as a temporary preview.
 
 Spend checks where they find problems:
 
 - After the first edit, run the cheapest behavior-scoped check; during iteration rerun only the failing or affected check, not the whole suite.
 - Check the initial desktop and narrow layout and the core interactions on the dev server before the first production build. A passing build is not a prerequisite for browser verification, and fixing what the browser shows before building saves a rebuild.
+- For an implemented approval, publication or history workflow, add focused state-transition tests: dependencies changing after approval, approval withdrawn during async work, and persistence failing partway through a multi-step update. Revalidate eligibility at commit time, and make sure a failure leaves no partial success or ineligible snapshot. This is local mock-data testing, not backend work.
 - Start the browser pass with the [interaction preflight](references/component-state-conformance.md#interaction-preflight), then reuse its verified selectors and readiness assertions in the full suite.
 - Run the final validation sequence once after the last relevant edit and reuse passing results while their inputs are unchanged. Browser-test-only edits do not need a new production build. Do not run dev and build processes against the same output directory, or hide failures with pipelines.
 

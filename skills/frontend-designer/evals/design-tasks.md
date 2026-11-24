@@ -20,6 +20,8 @@ Run these when changing design policy, routing, or quality gates, not for every 
 | Borrowed prop | Add a destructive Button next to a `Badge intent="danger"`, and a `Textarea` beside `size="lg"` inputs | Verifies Button's own destructive appearance and Textarea's own props before the typecheck; no `intent` on Button, no `size` on Textarea |
 | Row actions | A table with Edit, Duplicate and Delete inline links per row | One ellipsis `Menu` per row with a row-specific accessible name; Delete last, danger intent, confirmed |
 | Label wiring | A filter form whose checkboxes are labelled by an enclosing label | The browser script discovers the association before clicking the label and asserts the checked state |
+| Static prototype | "Mock up the campaign settings form, visual only" | Fields render with valid anatomy and labels but stay unwired; no submission logic, disabled styling or disclaimer is added, and the gate does not fail it |
+| Selected toggle | A toolbar of view-mode and formatting toggles | No lime pressed state: subtle `ToggleButton` for tools, `SegmentedControl` for view modes, a filter Menu when the choice changes which items show |
 
 ## Rendered benchmark
 
